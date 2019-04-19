@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lalit on 9/12/2016.
+ * Created by Madalina Bara on 06/04/2019
  */
 public final class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "InventoryManagement.db";
+    private static final String DATABASE_NAME = "InventoryManagement";
 
     // User table name
     private static final String TABLE_USER = "user";
@@ -58,12 +58,12 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 + EQUIPMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + EQUIPMENT_NAME + " TEXT,"
                 + EQUIPMENT_ROOM + " TEXT" + ")";
         db.execSQL(CREATE_USER_TABLE);
+        Log.d("Table : {} created.", TABLE_USER);
         db.execSQL(CREATE_EQUIPMENT_TABLE);
-
+        Log.d("Table : {} created.", CREATE_EQUIPMENT_TABLE);
         //initialize database with some equipments
         db.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'SpitalulMilitar')");
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
