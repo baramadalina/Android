@@ -39,7 +39,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Constructor
-     * 
+     *
      * @param context an object of type {@code Context}
      */
     public DatabaseHelper(Context context) {
@@ -62,7 +62,20 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_EQUIPMENT_TABLE);
         Log.d("Table : {} created.", CREATE_EQUIPMENT_TABLE);
         //initialize database with some equipments
-        db.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'SpitalulMilitar')");
+        initializeDatabaseWithEquipments(db);
+    }
+
+    //TODO converteste ce e mai jos in query de sql, cum e aici in prima linie.
+    private void initializeDatabaseWithEquipments(SQLiteDatabase equipmentDb) {
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'SpitalulMilitar')");
+        //equipmentDb.addEquipment(new Equipment("X-ray Machine", "X-ray Lab"));
+        //equipmentDb.addEquipment(new Equipment("Blood Chemistry Analyser", "Pathology Lab"));
+        //equipmentDb.addEquipment(new Equipment("ECG/EKG", "ECG Room"));
+        //equipmentDb.addEquipment(new Equipment("Largyngoscope", "OT"));
+        //equipmentDb.addEquipment(new Equipment("Magnifying Glasses", "Surgery Cabinet"));
+        //equipmentDb.addEquipment(new Equipment("Bio-hazard bags", "Store Room #1"));
+        //equipmentDb.addEquipment(new Equipment("Antibacterial Wipes", "Store Room #2"));
+        //equipmentDb.addEquipment(new Equipment("Hand Sanitizer", "Store Room #3"));
     }
 
     @Override

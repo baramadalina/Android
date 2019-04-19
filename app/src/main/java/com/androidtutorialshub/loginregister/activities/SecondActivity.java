@@ -26,7 +26,7 @@ public class SecondActivity extends AppCompatActivity {
         btn_inventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent inventoryIntent=new Intent(SecondActivity.this,InventoryActivity.class);
+                Intent inventoryIntent=new Intent(SecondActivity.this, InventoryListActivity.class);
                 SecondActivity.this.startActivity(inventoryIntent);
             }
         });

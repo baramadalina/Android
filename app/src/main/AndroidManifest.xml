@@ -24,7 +24,9 @@
             android:name=".activities.UsersListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activities.SecondActivity" />
-        <activity android:name=".activities.InventoryActivity" />
+        <activity android:name=".activities.InventoryMainActivity" />
+        <activity android:name=".activities.InventoryListActivity" />
+        <activity android:name=".activities.InventoryUpdateDeleteActivity" />
         <activity android:name=".activities.TasksActivity" />
         <activity android:name=".activities.ReportsActivity" />
     </application>
