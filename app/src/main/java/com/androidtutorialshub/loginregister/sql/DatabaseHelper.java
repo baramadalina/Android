@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.androidtutorialshub.loginregister.model.User;
 
@@ -12,57 +13,69 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lalit on 9/12/2016.
+ * Created by Madalina Bara on 06/04/2019
  */
-public class DatabaseHelper extends SQLiteOpenHelper {
+public final class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
-
     // Database Name
-    private static final String DATABASE_NAME = "UserManager.db";
+    private static final String DATABASE_NAME = "InventoryManagement";
 
     // User table name
     private static final String TABLE_USER = "user";
-
     // User Table Columns names
     private static final String COLUMN_USER_ID = "user_id";
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
 
-    // create table sql query
-    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-            + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
-            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
-
-    // drop table sql query
-    private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+    // table name
+    static final String TABLE_EQUIPMENT = "equipment";
+    // Table Columns names
+    static final String EQUIPMENT_ID = "id";
+    static final String EQUIPMENT_NAME = "name";
+    static final String EQUIPMENT_ROOM = "room";
 
     /**
      * Constructor
      * 
-     * @param context
+     * @param context an object of type {@code Context}
      */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        Log.d("Create database: {}", DATABASE_NAME);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // create user table sql query
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
+                + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
+                + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
+        // create equipment table
+        String CREATE_EQUIPMENT_TABLE = "CREATE TABLE " + TABLE_EQUIPMENT + "("
+                + EQUIPMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + EQUIPMENT_NAME + " TEXT,"
+                + EQUIPMENT_ROOM + " TEXT" + ")";
         db.execSQL(CREATE_USER_TABLE);
+        Log.d("Table : {} created.", TABLE_USER);
+        db.execSQL(CREATE_EQUIPMENT_TABLE);
+        Log.d("Table : {} created.", CREATE_EQUIPMENT_TABLE);
+        //initialize database with some equipments
+        db.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'SpitalulMilitar')");
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        //Drop User Table if exist
+        //Drop User table if exist
+        final String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+        //Drop Equipment table if exist
+        final String DROP_EQUIPMENT_TABLE = "DROP TABLE IF EXISTS " + TABLE_EQUIPMENT;
         db.execSQL(DROP_USER_TABLE);
-
+        db.execSQL(DROP_EQUIPMENT_TABLE);
         // Create tables again
         onCreate(db);
-
     }
 
     /**
@@ -97,10 +110,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_USER_PASSWORD
         };
         // sorting orders
-        String sortOrder =
-                COLUMN_USER_NAME + " ASC";
-        List<User> userList = new ArrayList<User>();
-
+        String sortOrder = COLUMN_USER_NAME + " ASC";
+        List<User> userList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         // query the user table

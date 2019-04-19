@@ -4,19 +4,21 @@ package com.androidtutorialshub.loginregister.model;
  * Created by Madalina on 17.04.2019.
  */
 
-public class Inventory {
+public class Equipment {
 
     private int id;
     private String name;
     private String room;
 
+    public Equipment(String name, String room) {
+        this.name = name;
+        this.room = room;
+    }
 
-    public Inventory(String s, String s1){}
-
-    public Inventory(int id,String name,String room){
-        this.id=id;
-        this.name=name;
-        this.room=room;
+    public Equipment(int id, String name, String room) {
+        this.id = id;
+        this.name = name;
+        this.room = room;
     }
 
     public int getId() {
