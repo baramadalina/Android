@@ -1,10 +1,13 @@
 package com.androidtutorialshub.loginregister.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Madalina on 17.04.2019.
  */
 
-public class Equipment {
+public class Equipment implements Parcelable {
 
     private int id;
     private String name;
@@ -19,6 +22,12 @@ public class Equipment {
         this.id = id;
         this.name = name;
         this.room = room;
+    }
+
+    protected Equipment(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        room = in.readString();
     }
 
     public int getId() {
@@ -43,5 +52,29 @@ public class Equipment {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public static final Creator<Equipment> CREATOR = new Creator<Equipment>() {
+        @Override
+        public Equipment createFromParcel(Parcel in) {
+            return new Equipment(in);
+        }
+
+        @Override
+        public Equipment[] newArray(int size) {
+            return new Equipment[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(room);
     }
 }
