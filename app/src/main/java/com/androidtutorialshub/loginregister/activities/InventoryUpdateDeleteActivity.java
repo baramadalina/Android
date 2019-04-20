@@ -25,6 +25,7 @@ public class InventoryUpdateDeleteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_update_delete);
+        getSupportActionBar().hide();
 
         Intent intent = getIntent();
         equipment = intent.getParcelableExtra("equipment");
@@ -44,7 +45,7 @@ public class InventoryUpdateDeleteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sqlCommander.updateEquipment(new Equipment(equipment.getId(), etname.getText().toString(), etroom.getText().toString()));
-                Toast.makeText(InventoryUpdateDeleteActivity.this, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InventoryUpdateDeleteActivity.this, "Add a new equipment!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(InventoryUpdateDeleteActivity.this, InventoryMainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);

@@ -1,52 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="@color/colorBackground"
     tools:context="com.androidtutorialshub.loginregister.activities.InventoryMainActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="#faa"
+        android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
-        android:text="Enter Name, Room to store in SQLite" />
+        android:text="Enter Name, Room to store in Inventory" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/etname"
-        android:background="#fba"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:hint="Enter Name"/>
-
-    <EditText
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:id="@+id/etroom"
-        android:background="#fba"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:hint="Enter Room"/>
+        android:background="@color/colorBackground"
+        android:hint="Enter Room"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:layout_above="@+id/btnstore"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" /><![CDATA[
+
+    "
+        android:hint="Enter Name"
+        android:layout_above="@+id/etroom"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="27dp" />
+
+
+
+
+
+
+
+    ]]>
+
+    <EditText
+        android:layout_height="40dp"
+        android:id="@+id/etname"
+        android:background="@color/colorBackground"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="23dp"
+        android:hint="Enter Name"
+        android:layout_width="300dp"
+        android:layout_above="@+id/etroom"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnget"
+        android:text="View inventory"
+        android:layout_marginBottom="99dp"
+        android:background="@color/colorPrimary"
+        android:textStyle="normal|bold"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/etroom"
+        android:layout_alignStart="@+id/etroom" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnstore"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="Add to inventory"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnget"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="View inventory"/>
+        android:text="Add to inventory"
+        android:background="@color/colorPrimary"
+        android:textStyle="normal|bold"
+        android:layout_alignBaseline="@+id/btnget"
+        android:layout_alignBottom="@+id/btnget"
+        android:layout_alignRight="@+id/etroom"
+        android:layout_alignEnd="@+id/etroom" />
 
-</LinearLayout>
+    <ImageView
+        app:srcCompat="@drawable/medical"
+        android:id="@+id/imageView2"
+        android:layout_above="@+id/etname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:layout_width="300dp"
+        android:layout_height="200dp" />
+
+</RelativeLayout>

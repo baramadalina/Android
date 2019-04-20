@@ -67,7 +67,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     //TODO converteste ce e mai jos in query de sql, cum e aici in prima linie.
     private void initializeDatabaseWithEquipments(SQLiteDatabase equipmentDb) {
-        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'SpitalulMilitar')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'Room 1')");
         //equipmentDb.addEquipment(new Equipment("X-ray Machine", "X-ray Lab"));
         //equipmentDb.addEquipment(new Equipment("Blood Chemistry Analyser", "Pathology Lab"));
         //equipmentDb.addEquipment(new Equipment("ECG/EKG", "ECG Room"));

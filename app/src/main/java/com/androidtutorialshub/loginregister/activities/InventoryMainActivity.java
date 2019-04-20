@@ -24,6 +24,7 @@ public class InventoryMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory_main);
+        getSupportActionBar().hide();
 
         databaseHelper = new DatabaseHelper(this);
         sqlCommander = new EquipmentSqlCommander(databaseHelper);
