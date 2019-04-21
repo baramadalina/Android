@@ -2,7 +2,6 @@ package com.androidtutorialshub.loginregister.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,34 +45,3 @@ public class InventoryListActivity extends AppCompatActivity {
         });
     }
 }
-
-/*    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inventory);
-
-        DatabaseHelper db = new DatabaseHelper(this);
-        EquipmentSqlCommander equipmentDb = new EquipmentSqlCommander(db);
-
-        // Inserting Shop/Rows
-        Log.d("Insert: ", "Inserting ..");
-        equipmentDb.addEquipment(new Equipment("Equipmentt","SpitalulMilitar"));
-
-        // Reading all shops
-        Log.d("Reading: ", "Reading all equipments..");
-        List<Equipment> inv = equipmentDb.getAllEquipments();
-
-        for (Equipment i : inv) {
-            String log = "Id" + i.getId() + "" + " ,Name: " + i.getName() + " ,Room " + i.getRoom();
-            // Writing shops to log
-            Log.d("Equipment::", log);
-        }
-    }
-}*/
-
-
-
-
-
-
-
