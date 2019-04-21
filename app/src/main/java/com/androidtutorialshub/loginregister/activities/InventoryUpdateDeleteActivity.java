@@ -37,7 +37,6 @@ public class InventoryUpdateDeleteActivity extends AppCompatActivity {
         etroom = (EditText) findViewById(R.id.etroom);
         btndelete = (Button) findViewById(R.id.btndelete);
         btnupdate = (Button) findViewById(R.id.btnupdate);
-
         etname.setText(equipment.getName());
         etroom.setText(equipment.getRoom());
 
@@ -45,8 +44,8 @@ public class InventoryUpdateDeleteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sqlCommander.updateEquipment(new Equipment(equipment.getId(), etname.getText().toString(), etroom.getText().toString()));
-                Toast.makeText(InventoryUpdateDeleteActivity.this, "Add a new equipment!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(InventoryUpdateDeleteActivity.this, InventoryMainActivity.class);
+                Toast.makeText(InventoryUpdateDeleteActivity.this, "Update an existing equipment!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(InventoryUpdateDeleteActivity.this, InventoryListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -57,7 +56,7 @@ public class InventoryUpdateDeleteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sqlCommander.deleteEquipment(equipment);
                 Toast.makeText(InventoryUpdateDeleteActivity.this, "Deleted Successfully!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(InventoryUpdateDeleteActivity.this, InventoryMainActivity.class);
+                Intent intent = new Intent(InventoryUpdateDeleteActivity.this, InventoryListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
