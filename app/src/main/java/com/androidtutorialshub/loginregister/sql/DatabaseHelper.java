@@ -30,9 +30,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
 
-    // table name
+    // Equipment table name
     static final String TABLE_EQUIPMENT = "equipment";
-    // Table Columns names
+    // Equipment Table Columns names
     static final String EQUIPMENT_ID = "id";
     static final String EQUIPMENT_NAME = "name";
     static final String EQUIPMENT_ROOM = "room";
@@ -61,21 +61,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("Table : {} created.", TABLE_USER);
         db.execSQL(CREATE_EQUIPMENT_TABLE);
         Log.d("Table : {} created.", CREATE_EQUIPMENT_TABLE);
-        //initialize database with some equipments
+        //initialize database when the application start
+        initializeDatabaseWithUsers(db);
         initializeDatabaseWithEquipments(db);
-    }
-
-    //TODO converteste ce e mai jos in query de sql, cum e aici in prima linie.
-    private void initializeDatabaseWithEquipments(SQLiteDatabase equipmentDb) {
-        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'Room 1')");
-        //equipmentDb.addEquipment(new Equipment("X-ray Machine", "X-ray Lab"));
-        //equipmentDb.addEquipment(new Equipment("Blood Chemistry Analyser", "Pathology Lab"));
-        //equipmentDb.addEquipment(new Equipment("ECG/EKG", "ECG Room"));
-        //equipmentDb.addEquipment(new Equipment("Largyngoscope", "OT"));
-        //equipmentDb.addEquipment(new Equipment("Magnifying Glasses", "Surgery Cabinet"));
-        //equipmentDb.addEquipment(new Equipment("Bio-hazard bags", "Store Room #1"));
-        //equipmentDb.addEquipment(new Equipment("Antibacterial Wipes", "Store Room #2"));
-        //equipmentDb.addEquipment(new Equipment("Hand Sanitizer", "Store Room #3"));
     }
 
     @Override
@@ -89,6 +77,37 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DROP_EQUIPMENT_TABLE);
         // Create tables again
         onCreate(db);
+    }
+
+    /**
+     * Insert values into 'equipment' table when the application startup
+     * with few medical equipments
+     *
+     * @param equipmentDb an object of type {@code SQLiteDatabase}
+     */
+    private void initializeDatabaseWithEquipments(SQLiteDatabase equipmentDb) {
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'Room 1')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Anaesthesia Machine', 'OT')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('X-ray Machine', 'X-ray Lab')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Blood Chemistry Analyser', 'Pathology Lab')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('ECG/EKG', 'ECG Room')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Largyngoscope', 'OT')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Magnifying Glasses', 'Surgery Cabinet')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Bio-hazard bags', 'Store Room #1')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Antibacterial Wipes', 'Store Room #2')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Hand Sanitizer', 'Store Room #3')");
+    }
+
+    /**
+     * Insert values into 'user' table when the application startup
+     * with few medical equipments
+     *
+     * @param db an object of type {@code SQLiteDatabase}
+     */
+    private void initializeDatabaseWithUsers(SQLiteDatabase db) {
+        db.execSQL("INSERT INTO user (user_name, user_email, user_password) VALUES ('test', 'test@yahoo.com', 'test')");
+        db.execSQL("INSERT INTO user (user_name, user_email, user_password) VALUES ('test1', 'test@gmail.com', 'test1')");
+        db.execSQL("INSERT INTO user (user_name, user_email, user_password) VALUES ('madalina', 'mbara@yahoo.com', 'Passw0rd')");
     }
 
     /**

@@ -2,10 +2,10 @@ package com.androidtutorialshub.loginregister.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.androidtutorialshub.loginregister.R;
@@ -19,6 +19,7 @@ import java.util.List;
 public class InventoryListActivity extends AppCompatActivity {
 
     private ListView listView;
+    private Button btnAddNew;
     private List<Equipment> inventoryList;
     private InventoryCustomAdapter customAdapter;
     private DatabaseHelper databaseHelper;
@@ -35,6 +36,7 @@ public class InventoryListActivity extends AppCompatActivity {
         inventoryList = sqlCommander.getAllEquipments();
         customAdapter = new InventoryCustomAdapter(this, inventoryList);
         listView.setAdapter(customAdapter);
+        btnAddNew = (Button) findViewById(R.id.btnAddNew);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,36 +46,13 @@ public class InventoryListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnAddNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InventoryListActivity.this, InventoryMainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
-
-/*    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inventory);
-
-        DatabaseHelper db = new DatabaseHelper(this);
-        EquipmentSqlCommander equipmentDb = new EquipmentSqlCommander(db);
-
-        // Inserting Shop/Rows
-        Log.d("Insert: ", "Inserting ..");
-        equipmentDb.addEquipment(new Equipment("Equipmentt","SpitalulMilitar"));
-
-        // Reading all shops
-        Log.d("Reading: ", "Reading all equipments..");
-        List<Equipment> inv = equipmentDb.getAllEquipments();
-
-        for (Equipment i : inv) {
-            String log = "Id" + i.getId() + "" + " ,Name: " + i.getName() + " ,Room " + i.getRoom();
-            // Writing shops to log
-            Log.d("Equipment::", log);
-        }
-    }
-}*/
-
-
-
-
-
-
-

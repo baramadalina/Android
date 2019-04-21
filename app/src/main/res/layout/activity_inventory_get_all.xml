@@ -7,6 +7,23 @@
     android:orientation="vertical"
     tools:context="com.androidtutorialshub.loginregister.activities.InventoryListActivity">
 
+    <Button
+        android:id="@+id/btnAddNew"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-14dp"
+        android:layout_marginRight="-14dp"
+        android:layout_marginBottom="14dp"
+        android:layout_toStartOf="@+id/etroom"
+        android:layout_toLeftOf="@+id/etroom"
+        android:background="@color/colorTextHint"
+        android:elevation="0dp"
+        android:text="ADD a new EQUIPMENT"
+        android:textStyle="normal|bold" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

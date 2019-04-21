@@ -9,84 +9,87 @@
     tools:context="com.androidtutorialshub.loginregister.activities.InventoryMainActivity">
 
     <TextView
+        android:id="@+id/up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
         android:layout_marginTop="10dp"
-        android:text="Enter Name, Room to store in Inventory" />
+        android:gravity="center"
+        android:text="Enter Name, Room to store into Inventory"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:id="@+id/etroom"
-        android:background="@color/colorBackground"
-        android:hint="Enter Room"
-        android:maxLines="1"
-        android:textColor="@android:color/white"
-        android:layout_above="@+id/btnstore"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp" /><![CDATA[
-
-    "
-        android:hint="Enter Name"
-        android:layout_above="@+id/etroom"
+    <TextView
+        android:text="Room:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/etroom"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="27dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:id="@+id/textView7"
+        android:textStyle="normal|bold"
+        android:textSize="18sp" />
 
-
-
-
-
-
-
-    ]]>
+    <TextView
+        android:text="Name:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/etname"
+        android:layout_alignRight="@+id/textView7"
+        android:layout_alignEnd="@+id/textView7"
+        android:id="@+id/textView8"
+        android:textStyle="normal|bold"
+        android:textSize="18sp" />
 
     <EditText
-        android:layout_height="40dp"
         android:id="@+id/etname"
-        android:background="@color/colorBackground"
-        android:maxLines="1"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="23dp"
-        android:hint="Enter Name"
-        android:layout_width="300dp"
+        android:layout_width="270dp"
+        android:layout_height="35dp"
         android:layout_above="@+id/etroom"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:layout_marginBottom="49dp"
+        android:background="@color/colorAccent"
+        android:hint="Enter Name" />
+
+    <EditText
+        android:id="@+id/etroom"
+        android:layout_width="270dp"
+        android:layout_height="35dp"
+        android:layout_above="@+id/btnstore"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:layout_marginBottom="64dp"
+        android:background="@color/colorAccent"
+        android:hint="Enter Room" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnget"
-        android:text="View inventory"
-        android:layout_marginBottom="99dp"
-        android:background="@color/colorPrimary"
-        android:textStyle="normal|bold"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/etroom"
-        android:layout_alignStart="@+id/etroom" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/btnstore"
-        android:text="Add to inventory"
-        android:background="@color/colorPrimary"
-        android:textStyle="normal|bold"
-        android:layout_alignBaseline="@+id/btnget"
-        android:layout_alignBottom="@+id/btnget"
-        android:layout_alignRight="@+id/etroom"
-        android:layout_alignEnd="@+id/etroom" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="-143dp"
+        android:layout_marginRight="-143dp"
+        android:layout_marginBottom="136dp"
+        android:layout_toStartOf="@+id/etroom"
+        android:layout_toLeftOf="@+id/etroom"
+        android:background="@color/colorTextHint"
+        android:elevation="0dp"
+        android:text="Save EQUIPMENT"
+        android:textStyle="normal|bold" />
 
     <ImageView
+        android:layout_width="200dp"
         app:srcCompat="@drawable/medical"
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView4"
+        android:layout_height="200dp"
         android:layout_above="@+id/etname"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="11dp"
-        android:layout_width="300dp"
-        android:layout_height="200dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
