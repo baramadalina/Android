@@ -1,12 +1,18 @@
 package com.androidtutorialshub.loginregister.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.androidtutorialshub.loginregister.R;
 import com.androidtutorialshub.loginregister.adapters.InventoryCustomAdapter;
@@ -16,7 +22,7 @@ import com.androidtutorialshub.loginregister.sql.EquipmentSqlCommander;
 
 import java.util.List;
 
-public class InventoryListActivity extends AppCompatActivity {
+public class InventoryListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private ListView listView;
     private Button btnAddNew;
@@ -24,6 +30,8 @@ public class InventoryListActivity extends AppCompatActivity {
     private InventoryCustomAdapter customAdapter;
     private DatabaseHelper databaseHelper;
     private EquipmentSqlCommander sqlCommander;
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,5 +62,34 @@ public class InventoryListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_search, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.menu_toolbarsearch);
+        searchView = (SearchView) searchMenuItem.getActionView();
+        if (searchManager != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Search by name");
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        customAdapter.getFilter().filter(newText);
+        return true;
     }
 }
