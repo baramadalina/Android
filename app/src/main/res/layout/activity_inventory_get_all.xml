@@ -13,10 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="-14dp"
         android:layout_marginRight="-14dp"
-        android:layout_marginBottom="14dp"
         android:layout_toStartOf="@+id/etroom"
         android:layout_toLeftOf="@+id/etroom"
         android:background="@color/colorTextHint"
@@ -28,16 +27,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
         android:textColor="#000"
         android:text="Available equipments from inventory"/>
 
+    <!--Divider code in ListView-->
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/lv_equipments"
-        android:layout_below="@+id/tb_toolbarsearch">
-    </ListView>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/material_blue_grey_800"
+        android:dividerHeight="1dp"
+        android:layout_below="@+id/tb_toolbarsearch" />
 
 </LinearLayout>

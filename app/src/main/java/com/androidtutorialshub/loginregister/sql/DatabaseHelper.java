@@ -36,6 +36,14 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     static final String EQUIPMENT_ID = "id";
     static final String EQUIPMENT_NAME = "name";
     static final String EQUIPMENT_ROOM = "room";
+    static final String EQUIPMENT_GENERAL_DESCRIPTION = "description";
+    static final String EQUIPMENT_TASK = "task";
+    static final String EQUIPMENT_MANUFACTURER = "manufacturer";
+    static final String EQUIPMENT_MODEL = "model";
+    static final String EQUIPMENT_PREVENTIVE_MAINTENANCE = "preventive_maintenance";
+    static final String EQUIPMENT_WARRANTY = "warranty";
+    static final String EQUIPMENT_MANUFACTURE_YEAR = "year_of_manufacture";
+    static final String EQUIPMENT_QUANTITY = "quantity_available";
 
     /**
      * Constructor
@@ -45,6 +53,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d("Create database: {}", DATABASE_NAME);
+        //Keep this below line here to drop database when it's necessary
+        //context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
@@ -56,7 +66,11 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         // create equipment table
         String CREATE_EQUIPMENT_TABLE = "CREATE TABLE " + TABLE_EQUIPMENT + "("
                 + EQUIPMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + EQUIPMENT_NAME + " TEXT,"
-                + EQUIPMENT_ROOM + " TEXT" + ")";
+                + EQUIPMENT_ROOM + " TEXT," + EQUIPMENT_GENERAL_DESCRIPTION + " TEXT,"
+                + EQUIPMENT_TASK + " TEXT," + EQUIPMENT_MANUFACTURER + " TEXT,"
+                + EQUIPMENT_MODEL + " TEXT," + EQUIPMENT_PREVENTIVE_MAINTENANCE + " TEXT,"
+                + EQUIPMENT_WARRANTY + " TEXT," + EQUIPMENT_MANUFACTURE_YEAR + " TEXT,"
+                + EQUIPMENT_QUANTITY + " TEXT" + ")";
         db.execSQL(CREATE_USER_TABLE);
         Log.d("Table : {} created.", TABLE_USER);
         db.execSQL(CREATE_EQUIPMENT_TABLE);
@@ -86,7 +100,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
      * @param equipmentDb an object of type {@code SQLiteDatabase}
      */
     private void initializeDatabaseWithEquipments(SQLiteDatabase equipmentDb) {
-        equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Equipment1', 'Room 1')");
+        equipmentDb.execSQL("INSERT INTO equipment (name, room, description) VALUES ('Equipment1', 'Room 1', 'dummy description')");
         equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Anaesthesia Machine', 'OT')");
         equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('X-ray Machine', 'X-ray Lab')");
         equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Blood Chemistry Analyser', 'Pathology Lab')");
