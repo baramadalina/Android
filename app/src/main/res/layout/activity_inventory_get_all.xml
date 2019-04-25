@@ -33,11 +33,13 @@
         android:textColor="#000"
         android:text="Available equipments from inventory"/>
 
+    <!--Divider code in ListView-->
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/lv_equipments"
-        android:layout_below="@+id/tb_toolbarsearch">
-    </ListView>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/material_blue_grey_800"
+        android:dividerHeight="1dp"
+        android:layout_below="@+id/tb_toolbarsearch" />
 
 </LinearLayout>
