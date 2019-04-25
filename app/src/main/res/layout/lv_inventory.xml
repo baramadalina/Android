@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:gravity="center_vertical"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:paddingLeft="10dp"
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Description"/>
 
