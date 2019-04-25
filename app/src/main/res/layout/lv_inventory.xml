@@ -30,6 +30,14 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:paddingLeft="10dp"
             android:text="Room" />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Description"/>
 
     </LinearLayout>
     <View

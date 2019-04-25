@@ -34,7 +34,6 @@ public class InventoryCustomAdapter extends BaseAdapter implements Filterable {
         getFilter();
     }
 
-
     @Override
     public int getCount() {
         return filteredList.size();
@@ -63,6 +62,7 @@ public class InventoryCustomAdapter extends BaseAdapter implements Filterable {
 
                 holder.tvname = (TextView) convertView.findViewById(R.id.name);
                 holder.tvroom = (TextView) convertView.findViewById(R.id.room);
+                holder.tvDescription = (TextView) convertView.findViewById(R.id.description);
                 convertView.setTag(holder);
             }
         } else {
@@ -72,7 +72,9 @@ public class InventoryCustomAdapter extends BaseAdapter implements Filterable {
 
         holder.tvname.setText(String.format("Name: %s", filteredList.get(position).getName()));
         holder.tvroom.setText(String.format("Room: %s", filteredList.get(position).getRoom()));
-        //holder.tvcity.setText("City: "+inventoryList.get(position).getCity());
+        if (filteredList.get(position).getDescription() != null) {
+            holder.tvDescription.setText(String.format("Description: %s", filteredList.get(position).getDescription()));
+        }
         return convertView;
     }
 
@@ -90,7 +92,7 @@ public class InventoryCustomAdapter extends BaseAdapter implements Filterable {
     }
 
     private class ViewHolder {
-        TextView tvname, tvroom;
+        TextView tvname, tvroom, tvDescription;
     }
 
     /**
