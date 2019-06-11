@@ -4,13 +4,13 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class InventoryListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private ListView listView;
-    private Button btnAddNew;
+    private FloatingActionButton btnAddNew;
     private List<Equipment> inventoryList;
     private InventoryCustomAdapter customAdapter;
     private DatabaseHelper databaseHelper;
@@ -44,7 +44,7 @@ public class InventoryListActivity extends AppCompatActivity implements SearchVi
         inventoryList = sqlCommander.getAllEquipments();
         customAdapter = new InventoryCustomAdapter(this, inventoryList);
         listView.setAdapter(customAdapter);
-        btnAddNew = (Button) findViewById(R.id.btnAddNew);
+        btnAddNew = (FloatingActionButton) findViewById(R.id.btnAddNew);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
