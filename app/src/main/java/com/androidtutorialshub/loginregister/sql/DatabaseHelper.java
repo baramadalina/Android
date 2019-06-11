@@ -45,6 +45,13 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     static final String EQUIPMENT_MANUFACTURE_YEAR = "year_of_manufacture";
     static final String EQUIPMENT_QUANTITY = "quantity_available";
 
+    // Reservation table name
+    private static final String TABLE_RESERVATION = "reservation";
+    // Reservation Table Columns
+    static final String RESERVATION_ID = "id";
+    static final String RESERVATION_INTERVAL = "interval";
+    static final String RESERVATION_EQUIPMENT_ID = "equipment_id";
+
     /**
      * Constructor
      *
@@ -71,10 +78,19 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 + EQUIPMENT_MODEL + " TEXT," + EQUIPMENT_PREVENTIVE_MAINTENANCE + " TEXT,"
                 + EQUIPMENT_WARRANTY + " TEXT," + EQUIPMENT_MANUFACTURE_YEAR + " TEXT,"
                 + EQUIPMENT_QUANTITY + " TEXT" + ")";
+
+        // create table reservation
+        String CREATE_RESERVATION_TABLE = "CREATE TABLE " + TABLE_RESERVATION + "("
+                + RESERVATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + RESERVATION_INTERVAL + " TEXT,"
+                + RESERVATION_EQUIPMENT_ID + " INTEGER" + ")";
+
+
         db.execSQL(CREATE_USER_TABLE);
         Log.d("Table : {} created.", TABLE_USER);
         db.execSQL(CREATE_EQUIPMENT_TABLE);
-        Log.d("Table : {} created.", CREATE_EQUIPMENT_TABLE);
+        Log.d("Table : {} created.", TABLE_EQUIPMENT);
+        db.execSQL(CREATE_RESERVATION_TABLE);
+        Log.d("Table : {} created.", TABLE_RESERVATION);
         //initialize database when the application start
         initializeDatabaseWithUsers(db);
         initializeDatabaseWithEquipments(db);
@@ -87,8 +103,11 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         final String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
         //Drop Equipment table if exist
         final String DROP_EQUIPMENT_TABLE = "DROP TABLE IF EXISTS " + TABLE_EQUIPMENT;
+        //Drop Equipment table if exist
+        final String DROP_RESERVATION_TABLE = "DROP TABLE IF EXISTS " + TABLE_RESERVATION;
         db.execSQL(DROP_USER_TABLE);
         db.execSQL(DROP_EQUIPMENT_TABLE);
+        db.execSQL(DROP_RESERVATION_TABLE);
         // Create tables again
         onCreate(db);
     }
