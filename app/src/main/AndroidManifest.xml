@@ -39,6 +39,7 @@
                 android:name="android.app.searchable"
                 android:resource="@menu/menu_search"></meta-data>
         </activity>
+        <activity android:name=".activities.CalendarActivity" />
 
     </application>
 

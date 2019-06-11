@@ -11,43 +11,31 @@ import com.androidtutorialshub.loginregister.R;
 public class SecondActivity extends AppCompatActivity {
 
     private Button btn_inventory;
-    private Button btn_tasks;
-    private Button btn_reports;
+    private Button btn_calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        btn_inventory=(Button)findViewById(R.id.ButtonInventory);
-        btn_tasks=(Button)findViewById(R.id.ButtonTasks);
-        btn_reports=(Button)findViewById(R.id.ButtonReports);
+        btn_inventory = (Button) findViewById(R.id.ButtonInventory);
+        btn_calendar = (Button) findViewById(R.id.ButtonCalendar);
 
         btn_inventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent inventoryIntent=new Intent(SecondActivity.this, InventoryListActivity.class);
+                Intent inventoryIntent = new Intent(SecondActivity.this, InventoryListActivity.class);
                 SecondActivity.this.startActivity(inventoryIntent);
             }
         });
 
-        btn_tasks.setOnClickListener(new View.OnClickListener() {
+        btn_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent tasksIntent=new Intent(SecondActivity.this,TasksActivity.class);
-                SecondActivity.this.startActivity(tasksIntent);
+            public void onClick(View v) {
+                Intent intent = new Intent(SecondActivity.this, CalendarActivity.class);
+                startActivity(intent);
             }
         });
-
-        btn_reports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent reportsIntent=new Intent(SecondActivity.this,ReportsActivity.class);
-                SecondActivity.this.startActivity(reportsIntent);
-
-            }
-        });
-
 
     }
 }

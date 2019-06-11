@@ -3,24 +3,52 @@ package com.androidtutorialshub.loginregister.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
 
 public class Reservation implements Parcelable {
 
     private int id;
-    private List<Day> days;
+    private String interval;
+    private int equipmentId;
 
-    public List<Day> getDays() {
-        return days;
+    public Reservation(String interval, int equipmentId) {
+        this.interval = interval;
+        this.equipmentId = equipmentId;
     }
 
-    public void setDays(List<Day> days) {
-        this.days = days;
+    public Reservation(int id, String interval, int equipmentId) {
+        this.id = id;
+        this.interval = interval;
+        this.equipmentId = equipmentId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getInterval() {
+        return interval;
+    }
+
+    public void setInterval(String interval) {
+        this.interval = interval;
+    }
+
+    public int getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(int equipmentId) {
+        this.equipmentId = equipmentId;
     }
 
     protected Reservation(Parcel in) {
         id = in.readInt();
-        days = in.createTypedArrayList(Day.CREATOR);
+        interval = in.readString();
+        equipmentId = in.readInt();
     }
 
     public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
@@ -43,6 +71,7 @@ public class Reservation implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
-        parcel.writeTypedList(days);
+        parcel.writeString(interval);
+        parcel.writeInt(equipmentId);
     }
 }
