@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:onClick="addNewEquipment"
+        android:text="ADD a new EQUIPMENT"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"

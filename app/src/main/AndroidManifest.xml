@@ -4,8 +4,6 @@
 
     <application
         android:allowBackup="true"
-        android:label="Inventory Management"
-        android:icon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -40,6 +38,9 @@
                 android:resource="@menu/menu_search"></meta-data>
         </activity>
         <activity android:name=".activities.CalendarActivity" />
+        <activity android:name=".activities.OpenCalendarActivity" />
+        <activity android:name=".activities.ReservationActivity" />
+        <activity android:name=".activities.CheckinActivity" />
 
     </application>
 
