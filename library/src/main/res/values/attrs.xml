@@ -13,8 +13,7 @@
         <attr name="imgLastMonth" format="reference"/>
         <attr name="imgNextMonth" format="reference"/>
         <attr name="language">
-            <enum name="china" value="1"/>
-            <enum name="english" value="2"/>
+            <enum name="english" value="1"/>
         </attr>
 
     </declare-styleable>

@@ -12,7 +12,6 @@
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#92a8d1"
         cv:language="english"/>
 
     <Button
@@ -20,13 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="goto_checkin"/>
+        android:text="@string/goto_checkin"/>
 
     <Button
         android:id="@+id/btn_look_action"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="look_action"/>
+        android:text="@string/look_action"/>
 
 </LinearLayout>

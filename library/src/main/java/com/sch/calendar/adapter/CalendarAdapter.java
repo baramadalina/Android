@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by StoneHui on 17/2/14.
+ * Created by Bara Madalina on 17/05/2019.
  * <p>
  * Data adapter for calendar component. The data type is {@link Date}
  */
