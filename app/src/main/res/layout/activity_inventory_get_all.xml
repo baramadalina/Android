@@ -3,34 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/imaginelista"
     android:orientation="vertical"
     tools:context="com.androidtutorialshub.loginregister.activities.InventoryListActivity">
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnAddNew"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_gravity="center"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="-14dp"
-        android:layout_marginRight="-14dp"
-        android:layout_toStartOf="@+id/etroom"
-        android:layout_toLeftOf="@+id/etroom"
-        android:background="@color/colorTextHint"
-        android:elevation="0dp"
-        android:text="ADD a new EQUIPMENT"
-        android:textStyle="normal|bold" />
+        android:src="@drawable/ic_pluss"
+        app:elevation="5dp"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick="addNewEquipment"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        app:borderWidth="0dp"
+        app:rippleColor="@color/colorPrimary" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="5dp"
-        android:textSize="15sp"
+        android:textStyle="normal|bold"
+        android:typeface="monospace"
+        android:fontFamily="casual"
+        android:textSize="20sp"
         android:textColor="#000"
-        android:text="Available equipments from inventory"/>
+        android:text="Medical equipments "/>
 
     <!--Divider code in ListView-->
     <ListView

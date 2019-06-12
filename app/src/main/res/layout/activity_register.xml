@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_name"
+                android:drawableLeft="@drawable/ic_name"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/white" />
@@ -50,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
+                android:drawableLeft="@drawable/ic_email"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/white" />
@@ -66,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
+                android:drawableLeft="@drawable/ic_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@android:color/white" />
@@ -82,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_confirm_password"
+                android:drawableLeft="@drawable/ic_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@android:color/white" />
