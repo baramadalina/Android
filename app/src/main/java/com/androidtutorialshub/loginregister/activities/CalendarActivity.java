@@ -75,8 +75,7 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
 
                 String msg = "Selected date Day: " + i2 + " Month : " + (i1 + 1) + " Year " + i;
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CalendarActivity.this, OpenCalendarActivity.class);
-                startActivity(intent);
+
             }
         });
     }
