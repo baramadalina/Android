@@ -37,12 +37,12 @@ public class OpenCalendarActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_goto_checkin)
     public void gotoCheckin() {
-        startActivity(new Intent(this, CheckinActivity.class));
+        startActivity(new Intent(this, ReportsActivity.class));
     }
 
     @OnClick(R.id.btn_look_action)
     public void lookAction() {
-        startActivity(new Intent(this, ReservationActivity.class));
+        startActivity(new Intent(this, UsersListActivity.class));
     }
 
     // Initialize view for calendar

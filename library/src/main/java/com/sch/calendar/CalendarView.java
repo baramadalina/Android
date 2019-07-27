@@ -50,11 +50,20 @@ import java.util.Locale;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
- * Created by BAra Madalina on 17/05/2019.
+ * Created by StoneHui on 17/2/14.
  * <p>
  * view for calendar
  */
 public class CalendarView extends LinearLayout {
+
+    /**
+     * Chinese
+     */
+    private final int LANGUAGE_CHINA = 1;
+    /**
+     * English
+     */
+    private final int LANGUAGE_ENGLISH = 2;
 
     // params for layout
     private int titleColor;
@@ -66,6 +75,7 @@ public class CalendarView extends LinearLayout {
     private Drawable monthBackground;
     private int dividerColor;
     private float dividerSize;
+    private int language = LANGUAGE_CHINA;
 
     private LayoutInflater layoutInflater;
 
@@ -121,8 +131,7 @@ public class CalendarView extends LinearLayout {
         monthBackground = array.getDrawable(R.styleable.CalendarView_monthBackground);
         dividerColor = array.getColor(R.styleable.CalendarView_dateDividerColor, Color.TRANSPARENT);
         dividerSize = array.getDimension(R.styleable.CalendarView_dateDividerSize, getResources().getDimension(R.dimen.dateDividerSize));
-
-        array.getInt(R.styleable.CalendarView_language, 1);
+        language = array.getInt(R.styleable.CalendarView_language, LANGUAGE_CHINA);
         array.recycle();
     }
 
@@ -137,7 +146,7 @@ public class CalendarView extends LinearLayout {
 
         initRCVMonth();
 
-        setTitleFormat("yyyy-MM", Locale.ENGLISH);
+        setTitleFormat("yyyy-MM", Locale.CHINA);
 
         // scroll to current date
         rcvMonth.scrollToPosition(currentPosition);
@@ -176,7 +185,10 @@ public class CalendarView extends LinearLayout {
 
     // initialize week bar
     private void initWeekBar() {
-        String[] weekArr = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+        String[] weekArr = {"日", "一", "二", "三", "四", "五", "六"};
+        if (language == LANGUAGE_ENGLISH) {
+            weekArr = new String[]{"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+        }
 
         LinearLayout weekLayout = new LinearLayout(getContext());
         weekLayout.setBackgroundDrawable(weekBackground);
