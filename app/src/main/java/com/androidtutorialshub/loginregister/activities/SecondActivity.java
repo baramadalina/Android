@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.activities.demo.HomeActivity;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -32,7 +33,11 @@ public class SecondActivity extends AppCompatActivity {
         btn_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecondActivity.this, CalendarActivity.class);
+                Intent currentIntent = getIntent();
+                String authenticatedEmail = currentIntent.getStringExtra("EMAIL");
+                Intent intent = new Intent(SecondActivity.this, HomeActivity.class);
+                intent.putExtra("EMAIL", authenticatedEmail);
+                //Intent intent = new Intent(SecondActivity.this, CalendarActivity.class);
                 startActivity(intent);
             }
         });

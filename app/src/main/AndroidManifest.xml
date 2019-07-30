@@ -38,6 +38,10 @@
                 android:resource="@menu/menu_search"></meta-data>
         </activity>
         <activity android:name=".activities.CalendarActivity" />
+        <activity android:name=".activities.AddReservationEventActivity" />
+        <activity android:name=".activities.demo.EventDetailsActivity" />
+        <activity android:name=".activities.demo.MenuActivity" />
+        <activity android:name=".activities.demo.HomeActivity" />
 
     </application>
 

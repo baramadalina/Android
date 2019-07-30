@@ -25,9 +25,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     // User table name
     private static final String TABLE_USER = "user";
     // User Table Columns names
-    private static final String COLUMN_USER_ID = "user_id";
-    private static final String COLUMN_USER_NAME = "user_name";
-    private static final String COLUMN_USER_EMAIL = "user_email";
+    static final String COLUMN_USER_ID = "user_id";
+    static final String COLUMN_USER_NAME = "user_name";
+    static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
 
     // Equipment table name
@@ -46,11 +46,16 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     static final String EQUIPMENT_QUANTITY = "quantity_available";
 
     // Reservation table name
-    private static final String TABLE_RESERVATION = "reservation";
+    static final String TABLE_RESERVATION = "reservation";
     // Reservation Table Columns
     static final String RESERVATION_ID = "id";
-    static final String RESERVATION_INTERVAL = "interval";
+    static final String RESERVATION_TITLE = "title";
+    static final String RESERVATION_LOCATION = "location";
+    static final String RESERVATION_DETAILS = "details";
+    static final String RESERVATION_START_TIME = "start_time";
+    static final String RESERVATION_DURATION = "duration";
     static final String RESERVATION_EQUIPMENT_ID = "equipment_id";
+    static final String RESERVATION_USER_EMAIL = "user_email";
 
     /**
      * Constructor
@@ -81,7 +86,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         // create table reservation
         String CREATE_RESERVATION_TABLE = "CREATE TABLE " + TABLE_RESERVATION + "("
-                + RESERVATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + RESERVATION_INTERVAL + " TEXT,"
+                + RESERVATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + RESERVATION_TITLE + " TEXT," + RESERVATION_LOCATION + " TEXT,"
+                + RESERVATION_DETAILS + " TEXT," + RESERVATION_USER_EMAIL + " TEXT,"
+                + RESERVATION_START_TIME + " TEXT," + RESERVATION_DURATION + " TEXT,"
                 + RESERVATION_EQUIPMENT_ID + " INTEGER" + ")";
 
 
@@ -94,6 +102,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         //initialize database when the application start
         initializeDatabaseWithUsers(db);
         initializeDatabaseWithEquipments(db);
+        initializeDatabaseWithReservations(db);
     }
 
     @Override
@@ -129,6 +138,15 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Bio-hazard bags', 'Store Room #1')");
         equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Antibacterial Wipes', 'Store Room #2')");
         equipmentDb.execSQL("INSERT INTO equipment (name, room) VALUES ('Hand Sanitizer', 'Store Room #3')");
+    }
+
+    private void initializeDatabaseWithReservations(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("INSERT INTO reservation (title, location, details, start_time, duration, equipment_id, user_email) " +
+                "VALUES ('Reservation Title1', 'Laboratory 2', 'no details provised', '1272509157', '2', '2', 'test@yahoo.com')");
+        sqLiteDatabase.execSQL("INSERT INTO reservation (title, location, details, start_time, duration, equipment_id, user_email) " +
+                "VALUES ('Reservation Title2', 'Laboratory 32', 'consultations', '1272509157', '5', '1', 'test@gmail.com')");
+        sqLiteDatabase.execSQL("INSERT INTO reservation (title, location, details, start_time, duration, equipment_id, user_email) " +
+                "VALUES ('Reservation Title3', 'Chemical Laboratory', 'details later', '1272509157', '2', '6', 'mbara@yahoo.com')");
     }
 
     /**
@@ -211,6 +229,36 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         // return user list
         return userList;
+    }
+
+    // Getting one user by id
+    public User findUserById(final String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DatabaseHelper.TABLE_USER, new String[]{DatabaseHelper.COLUMN_USER_ID,
+                        DatabaseHelper.COLUMN_USER_NAME, DatabaseHelper.COLUMN_USER_EMAIL}, DatabaseHelper.COLUMN_USER_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        User user = null;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            user = new User(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1), cursor.getString(2));
+        }
+        return user;
+    }
+
+    // Getting one user by id
+    public User findUserByEmail(final String userEmail) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DatabaseHelper.TABLE_USER, new String[]{DatabaseHelper.COLUMN_USER_ID,
+                        DatabaseHelper.COLUMN_USER_NAME, DatabaseHelper.COLUMN_USER_EMAIL}, DatabaseHelper.COLUMN_USER_EMAIL + "=?",
+                new String[]{userEmail}, null, null, null, null);
+        User user = null;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            user = new User(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1), cursor.getString(2));
+        }
+        return user;
     }
 
     /**
