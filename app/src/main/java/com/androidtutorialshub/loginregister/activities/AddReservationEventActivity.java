@@ -34,6 +34,10 @@ import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
 import com.androidtutorialshub.loginregister.sql.EquipmentSqlCommander;
 import com.androidtutorialshub.loginregister.sql.ReservationSqlCommander;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,7 +64,7 @@ public class AddReservationEventActivity extends MenuActivity {
     private int durationHours, durationMinutes, durationTotalMinutes;
     private String authenticatedEmail;
     private List<Long> freeTimes;
-    private Spinner dropdownEquipmentName;
+    private Spinner dropdownEquipment;
     // variable for equipments listing
     private DatabaseHelper databaseHelper;
     private EquipmentSqlCommander equipmentSqlCommander;
@@ -75,7 +79,7 @@ public class AddReservationEventActivity extends MenuActivity {
 
         btnFilterOptions = (Button) findViewById(R.id.btnFilterOptions);
 
-        dropdownEquipmentName = (Spinner) findViewById(R.id.spinner_dropDown_equipments);
+        dropdownEquipment = (Spinner) findViewById(R.id.spinner_dropDown_equipments);
 
         databaseHelper = new DatabaseHelper(this);
         equipmentSqlCommander = new EquipmentSqlCommander(databaseHelper);
@@ -83,7 +87,7 @@ public class AddReservationEventActivity extends MenuActivity {
         final List<Equipment> inventoryList = equipmentSqlCommander.getAllEquipments();
         List<String> equipmentNamesList = getAllEquipmentsDetails(inventoryList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, equipmentNamesList);
-        dropdownEquipmentName.setAdapter(adapter);
+        dropdownEquipment.setAdapter(adapter);
 
         btnFilterOptions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,8 +139,8 @@ public class AddReservationEventActivity extends MenuActivity {
         }
 
         mSelectedMembers = new ArrayList<>();
-        GetPrivilegesTask getPrivilegesTask = new GetPrivilegesTask();
-        getPrivilegesTask.execute();
+        GetListOfMembersTask getListOfMembersTask = new GetListOfMembersTask();
+        getListOfMembersTask.execute();
     }
 
     public void refreshSuggestions() {
@@ -262,7 +266,6 @@ public class AddReservationEventActivity extends MenuActivity {
         spinTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                DateManager dateManager = new DateManager();
                 AddReservationEventActivity.this.mSelectedUnixTimeStamp =
                         AddReservationEventActivity.this.freeTimes.get(position);
             }
@@ -434,28 +437,40 @@ public class AddReservationEventActivity extends MenuActivity {
         }
     }
 
-    private class GetPrivilegesTask extends AsyncTask<Void, Void, String> {
-        private final String LOG_TAG = GetPrivilegesTask.class.getSimpleName();
-        private final String ROUTE = "priv";
+    private class GetListOfMembersTask extends AsyncTask<Void, Void, String> {
+        private final String LOG_TAG = GetListOfMembersTask.class.getSimpleName();
 
         @Override
         protected String doInBackground(Void... params) {
-            //HTTPManager httpManager = new HTTPManager();
-           /* HashMap<String, String> header = new HashMap<>();
-            header.put("Authorization",
-                    new PreferencesManager(AddReservationEventActivity.this, null)
-                            .getApiKey());*/
-            //String jsonResponse = httpManager.get(ROUTE, header, null);
-            String jsonResponse = "{\n" +
-                    "\t\"error\": false,\n" +
-                    "\t\"members\": [{\n" +
-                    "\t\t\"id\": 3,\n" +
-                    "\t\t\"name\": \"someone\",\n" +
-                    "\t\t\"email\": \"someone@gmail.com\",\n" +
-                    "\t\t\"gender\": \"M\"\n" +
-                    "\t}]\n" +
-                    "}";
-            Log.v(LOG_TAG, "GetPrivileges jsonResponse: " + jsonResponse);
+            String jsonResponse = null;
+            final User userLogged = databaseHelper.findUserByEmail(authenticatedEmail);
+            if (userLogged == null) {
+                jsonResponse = "{\n" +
+                        "\t\"error\": false,\n" +
+                        "\t\"members\": [{\n" +
+                        "\t\t\"id\": 2,\n" +
+                        "\t\t\"name\": \"someone\",\n" +
+                        "\t\t\"email\": \"test@gmail.com\",\n" +
+                        "\t\t\"gender\": \"M\"\n" +
+                        "\t}]\n" +
+                        "}";
+                return jsonResponse;
+            }
+            try {
+                final JSONObject member = new JSONObject();
+                member.put("id", userLogged.getId());
+                member.put("name", userLogged.getName());
+                member.put("email", userLogged.getEmail());
+                member.put("gender", "M");
+                JSONArray ja = new JSONArray();
+                ja.put(member);
+                jsonResponse = new JSONObject()
+                        .put("members", ja)
+                        .toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.v(LOG_TAG, "ListOfUsersMember jsonResponse: " + jsonResponse);
 
             return jsonResponse;
         }
@@ -464,15 +479,12 @@ public class AddReservationEventActivity extends MenuActivity {
         protected void onPostExecute(String jsonResponse) {
             if (jsonResponse != null) {
                 try {
-                    List<Member> membersList = JsonParser.parsePrivileges(jsonResponse);
-                    if (membersList != null && membersList.size() == 1)
-                        membersList.get(0).setEmail(authenticatedEmail);
+                    List<Member> membersList = JsonParser.parseListOfMembers(jsonResponse);
                     if (membersList != null) {
                         AddReservationEventActivity.this.mMembers = membersList;
                         AddReservationEventActivity.this.displayMembersList();
                     }
-
-                } catch (JsonParser.JsonParserException e) {
+                } catch (Exception e) {
                     Toast.makeText(AddReservationEventActivity.this, e.getMessage(), Toast.LENGTH_LONG);
                 }
             }
@@ -482,25 +494,17 @@ public class AddReservationEventActivity extends MenuActivity {
     private class CreateReservationEventTask extends AsyncTask<Void, Void, String> {
         private final String LOG_TAG = CreateReservationEventTask.class.getSimpleName();
 
-        private final String PAYLOAD_TITLE = "title";
-        private final String PAYLOAD_START_TIME = "start_time";
-        private final String PAYLOAD_DURATION = "duration";
-        private final String PAYLOAD_LOCATION = "location";
-        private final String PAYLOAD_DETAILS = "details";
-        private final String PAYLOAD_MEMBERS = "members";
-
         @Override
         protected String doInBackground(Void... params) {
-
 /*
             HashMap<String, String> payload = new HashMap<>();
-            payload.put(PAYLOAD_TITLE, eventTitle);
-            payload.put(PAYLOAD_START_TIME, mSelectedUnixTimeStamp.toString());
-            payload.put(PAYLOAD_DURATION, Integer.toString(durationTotalMinutes));
-            payload.put(PAYLOAD_LOCATION, eventLocation);
-            payload.put(PAYLOAD_DETAILS, eventDetails);
+            payload.put("title", eventTitle);
+            payload.put("start_time", mSelectedUnixTimeStamp.toString());
+            payload.put("duration", Integer.toString(durationTotalMinutes));
+            payload.put("location", eventLocation);
+            payload.put("details", eventDetails);
             if (!memberEmailAddress.isEmpty()) {
-                payload.put(PAYLOAD_MEMBERS, memberEmailAddress);
+                payload.put("members", memberEmailAddress);
             }
 */
             Log.i("start_time: ", mSelectedUnixTimeStamp.toString());
@@ -516,46 +520,33 @@ public class AddReservationEventActivity extends MenuActivity {
                 User selectedUser = databaseHelper.findUserById(memberId);
                 reservation.setUserEmail(selectedUser.getEmail());
             }
-            //TODO get later equipment id dynamically instead of hardcoded value
-            //Log.i("equipmentSelected: ", dropdownEquipmentName.getSelectedItem().toString());
-            reservation.setEquipmentId(1);
+            int equipmentId = (int) dropdownEquipment.getSelectedItemId() + 1;
+            reservation.setEquipmentId(equipmentId);
             reservationSqlCommander.addReservation(reservation);
-            //String jsonResponse = httpManager.post(ROUTE, header, payload);
-/*            String jsonResponse = "{\n" +
-                    "\t\"error\": false,\n" +
-                    "\t\"event\": {\n" +
-                    "\t\t\"id\": 7,\n" +
-                    "\t\t\"owner_id\": 3,\n" +
-                    "\t\t\"duration\": 1,\n" +
-                    "\t\t\"event\": \"Reservation1\",\n" +
-                    "\t\t\"details\": \"details\",\n" +
-                    "\t\t\"location\": \"Bucharest lab 1\",\n" +
-                    "\t\t\"start_time\": \"1272509157\"\n" +
-                    "\t}\n" +
-                    "}";*/
-            Log.v(LOG_TAG, "CreateEvent with title: " + eventTitle);
+            Log.v(LOG_TAG, "CreateReservationEvent payload: " + reservation);
             return eventTitle;
         }
 
         @Override
         protected void onPostExecute(String jsonResponse) {
-            if (jsonResponse != null) {
-                try {
-                    Event event = JsonParser.parseCreateEvent(jsonResponse, databaseHelper);
-                    if (event != null) {
-                        Toast.makeText(AddReservationEventActivity.this, "Reservation event created successfully!", Toast.LENGTH_LONG)
-                                .show();
+            if (jsonResponse == null) {
+                return;
+            }
+            try {
+                Event event = JsonParser.parseCreateEvent(jsonResponse, databaseHelper);
+                if (event != null) {
+                    Toast.makeText(AddReservationEventActivity.this, "Reservation event created successfully!", Toast.LENGTH_LONG)
+                            .show();
 
-                        Intent intent = new Intent(AddReservationEventActivity.this,
-                                EventDetailsActivity.class);
-                        intent.putExtra("event", event);
-                        startActivity(intent);
+                    Intent intent = new Intent(AddReservationEventActivity.this,
+                            EventDetailsActivity.class);
+                    intent.putExtra("event", event);
+                    startActivity(intent);
 
-                        finish();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(AddReservationEventActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+                    finish();
                 }
+            } catch (Exception e) {
+                Toast.makeText(AddReservationEventActivity.this, e.getMessage(), Toast.LENGTH_LONG);
             }
         }
 

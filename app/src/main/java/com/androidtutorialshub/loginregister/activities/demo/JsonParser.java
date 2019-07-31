@@ -136,11 +136,10 @@ public class JsonParser {
      * @return Members List contains data about members whom the current user
      * has privileges on
      */
-    public static List<Member> parsePrivileges(String jsonStr) throws JsonParserException {
+    public static List<Member> parseListOfMembers(String jsonStr) {
         List<Member> membersList = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
-            checkError(jsonObject);
 
             JSONArray membersJsonArray = jsonObject.getJSONArray(API_MEMBERS_ARRAY);
             for (int i = 0; i < membersJsonArray.length(); i++) {

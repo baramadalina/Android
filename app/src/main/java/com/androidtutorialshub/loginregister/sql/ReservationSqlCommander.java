@@ -10,6 +10,7 @@ import com.androidtutorialshub.loginregister.model.Reservation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Madalina on 17.07.2019.
@@ -30,7 +31,9 @@ public class ReservationSqlCommander {
     public void addReservation(Reservation reservation) {
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.RESERVATION_ID, reservation.getId());
+        Random r = new Random();
+        int reservationId = r.nextInt(10000 - 1) + 1;
+        values.put(DatabaseHelper.RESERVATION_ID, reservationId);
         values.put(DatabaseHelper.RESERVATION_TITLE, reservation.getTitle());
         values.put(DatabaseHelper.RESERVATION_LOCATION, reservation.getLocation());
         values.put(DatabaseHelper.RESERVATION_DETAILS, reservation.getDetails());
@@ -38,10 +41,17 @@ public class ReservationSqlCommander {
         values.put(DatabaseHelper.RESERVATION_DURATION, reservation.getDuration());
         values.put(DatabaseHelper.RESERVATION_START_TIME, reservation.getStartTime());
         values.put(DatabaseHelper.RESERVATION_EQUIPMENT_ID, reservation.getEquipmentId());
-
-        // Inserting Row
-        db.insert(DatabaseHelper.TABLE_RESERVATION, null, values);
-        db.close(); // Closing database connection
+        try {
+            // Inserting Row
+            db.insert(DatabaseHelper.TABLE_RESERVATION, null, values);
+        } catch (Exception e) {
+            reservationId = r.nextInt(10000 - 1) + 1;
+            values.put(DatabaseHelper.RESERVATION_ID, reservationId);
+            db.insert(DatabaseHelper.TABLE_RESERVATION, null, values);
+        } finally {
+            // Closing database connection
+            db.close();
+        }
     }
 
     // Getting one reservation by title, location and equipment id
@@ -59,6 +69,7 @@ public class ReservationSqlCommander {
                     cursor.getString(4), cursor.getString(5), cursor.getString(6),
                     Integer.parseInt(cursor.getString(7)));
         }
+        db.close();
         return reservation;
     }
 

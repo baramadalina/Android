@@ -112,6 +112,21 @@ public class Reservation implements Parcelable {
         equipmentId = in.readInt();
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Reservation{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", location='").append(location).append('\'');
+        sb.append(", details='").append(details).append('\'');
+        sb.append(", duration='").append(duration).append('\'');
+        sb.append(", startTime='").append(startTime).append('\'');
+        sb.append(", userEmail='").append(userEmail).append('\'');
+        sb.append(", equipmentId=").append(equipmentId);
+        sb.append('}');
+        return sb.toString();
+    }
+
     public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
         @Override
         public Reservation createFromParcel(Parcel in) {
