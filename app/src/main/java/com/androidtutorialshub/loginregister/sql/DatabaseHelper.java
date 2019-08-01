@@ -142,9 +142,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     private void initializeDatabaseWithReservations(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("INSERT INTO reservation (title, location, details, start_time, duration, equipment_id, user_email) " +
-                "VALUES ('Reservation Title1', 'Laboratory 2', 'no details provised', '1272509157', '2', '2', 'test@yahoo.com')");
+                "VALUES ('Reservation Title1', 'Laboratory 2', 'no details provised', '1564639200', '120', '1', 'test@yahoo.com')");
         sqLiteDatabase.execSQL("INSERT INTO reservation (title, location, details, start_time, duration, equipment_id, user_email) " +
-                "VALUES ('Reservation Title2', 'Laboratory 32', 'consultations', '1272509157', '5', '1', 'test@gmail.com')");
+                "VALUES ('Reservation Title2', 'Laboratory 32', 'consultations', '1564650000', '180', '1', 'test@gmail.com')");
         sqLiteDatabase.execSQL("INSERT INTO reservation (title, location, details, start_time, duration, equipment_id, user_email) " +
                 "VALUES ('Reservation Title3', 'Chemical Laboratory', 'details later', '1272509157', '2', '6', 'mbara@yahoo.com')");
     }
