@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#2C3E50"
     android:orientation="vertical"
+    android:id="@+id/activity_one_reservation_event_details"
     android:padding="10dp">
 
     <ScrollView
@@ -174,13 +175,14 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-            <!-- Comments Fragment-->
+<!--        Comment need to be moved under equipments
+            &lt;!&ndash; Comments Fragment&ndash;&gt;
             <fragment
                 android:id="@+id/comments_fragment"
                 android:name="com.androidtutorialshub.loginregister.activities.demo.CommentsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+-->
 
 
         </LinearLayout>
