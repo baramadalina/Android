@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities;
 
 
 import android.content.Intent;
@@ -15,7 +15,9 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.activities.demo.Event;
 import com.androidtutorialshub.loginregister.activities.demo.Event.EventHash;
+import com.androidtutorialshub.loginregister.activities.demo.JsonParser;
 import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -26,13 +28,13 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListReservationEventsFragment extends Fragment {
+public class ListReservationEventsActivity extends Fragment {
 
     private ListView mEventsListView;
     private SimpleAdapter mAdapter;
     private DatabaseHelper databaseHelper;
 
-    public ListReservationEventsFragment() {
+    public ListReservationEventsActivity() {
         // Required empty public constructor
     }
 
@@ -49,7 +51,7 @@ public class ListReservationEventsFragment extends Fragment {
                 HashMap<String, String> eventHash = (HashMap<String, String>) mAdapter.getItem(position);
                 Event ev = EventHash.getEventFromHash(eventHash);
 
-                Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), ReservationEventDetailsActivity.class);
                 intent.putExtra("event", ev);
                 startActivity(intent);
             }
@@ -96,20 +98,6 @@ public class ListReservationEventsFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-
-/*            String jsonResponse = "{\n" +
-                    "\t\"error\": false,\n" +
-                    "\t\"events\": [{\n" +
-                    "\t\t\"id\": \"3\",\n" +
-                    "\t\t\"owner_id\": \"6\",\n" +
-                    "\t\t\"event\": \"meeting with supervisor\",\n" +
-                    "\t\t\"details\": \"a detailed message for the even goes here....\",\n" +
-                    "\t\t\"location\": \"somewhere\",\n" +
-                    "\t\t\"start_time\": \"1272509157\",\n" +
-                    "\t\t\"duration\": \"60\",\n" +
-                    "\t\t\"last_update_time\": null\n" +
-                    "\t}]\n" +
-                    "}";*/
             Log.v(LOG_TAG, "GetReservationEvents from database");
             return "";
         }

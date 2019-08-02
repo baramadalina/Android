@@ -1,13 +1,15 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.activities.demo.Event;
+import com.androidtutorialshub.loginregister.activities.demo.MenuActivity;
 
 
-public class EventDetailsActivity extends MenuActivity {
+public class ReservationEventDetailsActivity extends MenuActivity {
 
     private Event mEvent;
     private TextView tvTitle, tvDate, tvTime,
@@ -34,7 +36,6 @@ public class EventDetailsActivity extends MenuActivity {
         tvTitle.setText(this.mEvent.getTitle());
         tvDate.setText(this.mEvent.getDateString());
         tvTime.setText(this.mEvent.getTimeString());
-        // TODO find better formatting for duration
         tvDuration.setText(this.mEvent.getDuration() + " Minutes");
         tvLocation.setText(this.mEvent.getLocation());
         tvBody.setText(this.mEvent.getDetails());

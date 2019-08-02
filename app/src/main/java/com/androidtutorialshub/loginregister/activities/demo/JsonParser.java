@@ -162,11 +162,6 @@ public class JsonParser {
     }
 
     public static Event parseCreateEvent(String reservationEventTitle, DatabaseHelper databaseHelper) {
-
-        //JSONObject jsonObject = new JSONObject(jsonStr);
-        //checkError(jsonObject);
-
-        //JSONObject eventJson = jsonObject.getJSONObject(API_EVENT);
         return helperParseEvent(reservationEventTitle, databaseHelper);
 
     }
@@ -207,10 +202,9 @@ public class JsonParser {
         }
     }
 
-    public static List<FreeTime> parseFreeTimes(String jsonStr) throws JsonParserException {
+    public static List<FreeTime> parseFreeTimes(String jsonStr) {
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
-            checkError(jsonObject);
 
             JSONArray freeTimesJsonArray = jsonObject.getJSONArray(API_FREE_TIMES_ARRAY);
 

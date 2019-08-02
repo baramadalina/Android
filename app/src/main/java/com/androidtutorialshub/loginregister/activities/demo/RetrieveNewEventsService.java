@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.activities.ReservationEventDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -177,12 +178,12 @@ public class RetrieveNewEventsService extends Service {
 
             for (Event ev : newEvents) {
                 if (ev.getOwner_id() != userId) {
-                    Intent intent = new Intent(context, EventDetailsActivity.class);
+                    Intent intent = new Intent(context, ReservationEventDetailsActivity.class);
                     intent.putExtra("event", ev);
 
                     // to navigate back to parent activity from the notification's activity
 //                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-//                    stackBuilder.addParentStack(EventDetailsActivity.class);
+//                    stackBuilder.addParentStack(ReservationEventDetailsActivity.class);
 //
 //                    stackBuilder.addNextIntent(intent);
 

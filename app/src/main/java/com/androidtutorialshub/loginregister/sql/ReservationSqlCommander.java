@@ -74,6 +74,38 @@ public class ReservationSqlCommander {
     }
 
     /**
+     * Getting Reservations event for a specific equipment
+     *
+     * @return reservations events a list of object of type {@code List<Reservation>}
+     */
+    public List<Reservation> getReservationsForEquipmentId(int equipmentId) {
+        List<Reservation> reservationList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_RESERVATION + " WHERE " + DatabaseHelper.RESERVATION_EQUIPMENT_ID + "=" + equipmentId;
+        SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                final Reservation reservation = new Reservation();
+                reservation.setId(Integer.parseInt(cursor.getString(0)));
+                reservation.setTitle(cursor.getString(1));
+                reservation.setLocation(cursor.getString(2));
+                reservation.setDetails(cursor.getString(3));
+                reservation.setUserEmail(cursor.getString(4));
+                reservation.setStartTime(cursor.getString(5));
+                reservation.setDuration(cursor.getString(6));
+                reservation.setEquipmentId(cursor.getInt(7));
+                // Adding reservation to list
+                reservationList.add(reservation);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        // return reservation events list
+        return reservationList;
+    }
+
+    /**
      * Getting All reservations event
      *
      * @return reservations events a list of object of type {@code List<Reservation>}

@@ -17,6 +17,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.activities.ReservationEventDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
     private SimpleAdapter adapter;
     private Button btnCommentSend;
     private EditText etCommentbody;
-    private EventDetailsActivity mActivity;
+    private ReservationEventDetailsActivity mActivity;
 
     private List<Comment> commentsList;
     private List<Comment> oldCommentsList = new ArrayList<>();
@@ -47,7 +48,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mActivity = (EventDetailsActivity) getActivity();
+        mActivity = (ReservationEventDetailsActivity) getActivity();
     }
 
     @Override

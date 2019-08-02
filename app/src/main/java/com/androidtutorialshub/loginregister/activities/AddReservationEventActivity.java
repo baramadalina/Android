@@ -20,28 +20,31 @@ import android.widget.Toast;
 import com.androidtutorialshub.loginregister.R;
 import com.androidtutorialshub.loginregister.activities.demo.DateManager;
 import com.androidtutorialshub.loginregister.activities.demo.Event;
-import com.androidtutorialshub.loginregister.activities.demo.EventDetailsActivity;
 import com.androidtutorialshub.loginregister.activities.demo.FilterDialog;
 import com.androidtutorialshub.loginregister.activities.demo.FreeTime;
 import com.androidtutorialshub.loginregister.activities.demo.JsonParser;
 import com.androidtutorialshub.loginregister.activities.demo.Member;
 import com.androidtutorialshub.loginregister.activities.demo.MenuActivity;
-import com.androidtutorialshub.loginregister.activities.demo.PreferencesManager;
+import com.androidtutorialshub.loginregister.model.BusyTimeSlot;
 import com.androidtutorialshub.loginregister.model.Equipment;
 import com.androidtutorialshub.loginregister.model.Reservation;
+import com.androidtutorialshub.loginregister.model.ReservationInterval;
 import com.androidtutorialshub.loginregister.model.User;
 import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
 import com.androidtutorialshub.loginregister.sql.EquipmentSqlCommander;
 import com.androidtutorialshub.loginregister.sql.ReservationSqlCommander;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -150,7 +153,7 @@ public class AddReservationEventActivity extends MenuActivity {
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.FRENCH);
 
         Date dateFrom, dateTo;
         if (dateFromStr != null && !dateFromStr.isEmpty()) {
@@ -191,8 +194,8 @@ public class AddReservationEventActivity extends MenuActivity {
             return;
         }
 
-        RefreshTimesTask refreshTimesTask = new RefreshTimesTask();
-        refreshTimesTask.execute();
+        DisplayAvailableTimeSlotsTask displayAvailableTimeSlotsTask = new DisplayAvailableTimeSlotsTask();
+        displayAvailableTimeSlotsTask.execute();
 
     }
 
@@ -247,17 +250,10 @@ public class AddReservationEventActivity extends MenuActivity {
         DateManager dateManager = new DateManager();
 
         ArrayList<String> arraySpinner = new ArrayList<>();
-        for (FreeTime freeTime : freeTimesList) {
-//            arraySpinner.add(freeTime.getTimeString());
-//            if (arraySpinner.size() > 15) {
-//                break;
-//            }
-            for (int i = 0; i < freeTime.getRepetitionsCount() && i < 4; i++) {
-                long timestamp = freeTime.getStartTimeStamp() + i * durationTotalMinutes * 60;
-                this.freeTimes.add(timestamp);
-                dateManager.setTimeStamp(timestamp);
-                arraySpinner.add(dateManager.getReadableDayDateTimeString());
-            }
+        for(FreeTime freeTime: freeTimesList) {
+            long timeStamp = freeTime.getStartTimeStamp();
+            this.freeTimes.add(timeStamp);
+            arraySpinner.add(dateManager.getReadableDayDateTimeString(timeStamp));
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -366,9 +362,8 @@ public class AddReservationEventActivity extends MenuActivity {
         }
     }
 
-    private class RefreshTimesTask extends AsyncTask<Void, Void, String> {
-        private final String LOG_TAG = RefreshTimesTask.class.getSimpleName();
-        private final String ROUTE = "freetimes";
+    private class DisplayAvailableTimeSlotsTask extends AsyncTask<Void, Void, String> {
+        private final String LOG_TAG = DisplayAvailableTimeSlotsTask.class.getSimpleName();
 
         private final String QUERY_MEMBERS = "members";
         private final String QUERY_DATE_START = "date_start";
@@ -380,12 +375,6 @@ public class AddReservationEventActivity extends MenuActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            //HTTPManager httpManager = new HTTPManager();
-            HashMap<String, String> header = new HashMap<>();
-            header.put("Authorization",
-                    new PreferencesManager(AddReservationEventActivity.this, null)
-                            .getApiKey());
-
             String membersStr = extractMemberId();
             HashMap<String, String> queryParams = new HashMap<>();
             if (!membersStr.isEmpty()) {
@@ -396,23 +385,22 @@ public class AddReservationEventActivity extends MenuActivity {
             queryParams.put(QUERY_TIME_START, timeFromStr);
             queryParams.put(QUERY_TIME_END, timeToStr);
             queryParams.put(QUERY_DURATION, Integer.toString(durationTotalMinutes));
-//            if (!membersStr.isEmpty()) {
-//                queryParams.put(PAYLOAD_MEMBERS, membersStr);
-//            }
 
-            //String jsonResponse = httpManager.get(ROUTE, header, queryParams);
-            String jsonResponse = "{\n" +
-                    "\t\"error\": false,\n" +
-                    "\t\"free_times\": [{\n" +
-                    "\t\t\t\"start_time\": \"1272509157\",\n" +
-                    "\t\t\t\"times_fit\": \"1272509157\"\n" +
-                    "\t\t},\n" +
-                    "\t\t{\n" +
-                    "\t\t\t\"start_time\": \"1272509157\",\n" +
-                    "\t\t\t\"times_fit\": \"1272509157\"\n" +
-                    "\t\t}\n" +
-                    "\t]\n" +
-                    "}";
+            int equipmentId = getSelectedEquipmentId();
+            List<Reservation> listReservationsForEquipment = reservationSqlCommander.getReservationsForEquipmentId(equipmentId);
+            List<BusyTimeSlot> busyTimeSlotList = new ArrayList<>(listReservationsForEquipment.size());
+            for (Reservation reservation : listReservationsForEquipment) {
+                busyTimeSlotList.add(new BusyTimeSlot(reservation.getStartTime(), reservation.getDuration()));
+            }
+            // extract from busyTimeSlots the available time slots
+            List<ReservationInterval> freeTimesIntervals = getFreeTimesIntervals(busyTimeSlotList, durationHours);
+
+            String jsonResponse = null;
+            try {
+                jsonResponse = createJSONFromFreeTimeSlotsList(freeTimesIntervals);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             Log.v(LOG_TAG, "RefreshTimes jsonResponse: " + jsonResponse);
 
             return jsonResponse;
@@ -429,12 +417,91 @@ public class AddReservationEventActivity extends MenuActivity {
                                 "Suggested times refreshed", Toast.LENGTH_SHORT).show();
                     }
 
-                } catch (JsonParser.JsonParserException e) {
+                } catch (Exception e) {
                     Toast.makeText(AddReservationEventActivity.this, e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }
         }
+    }
+
+    public List<ReservationInterval> getFreeTimesIntervals(final List<BusyTimeSlot> busyTimeSlotList, int preferredDurationHours) {
+        Log.i("Preferred duration:h->", String.valueOf(preferredDurationHours));
+        List<ReservationInterval> reservationIntervalList = new ArrayList<>(busyTimeSlotList.size());
+        for (BusyTimeSlot busyTimeSlot : busyTimeSlotList) {
+            final DateTime startDate = convertFromTimestampToDate(busyTimeSlot.getStartTime());
+            int durationInMinutes = Integer.parseInt(busyTimeSlot.getDuration());
+            long timestampEnd = Long.parseLong(busyTimeSlot.getStartTime()) + durationInMinutes * 60L;
+            final DateTime endDate = convertFromTimestampToDate(String.valueOf(timestampEnd));
+            ReservationInterval reservationInterval = new ReservationInterval(startDate, endDate);
+            reservationIntervalList.add(reservationInterval);
+        }
+        Collections.sort(reservationIntervalList);
+        final List<ReservationInterval> notReservedList = new ArrayList<>();
+
+        if (reservationIntervalList.isEmpty()) {
+            return getAllDayAvailability(preferredDurationHours);
+        }
+        for (ReservationInterval reservationInterval : reservationIntervalList) {
+            Log.i("ReservationInterval:", reservationInterval.toString());
+            DateTime aux = new DateTime(reservationInterval.getStartDate().toString());
+            DateTime dateBeforeReservation = getFirstDateOfToday(aux);
+            while (dateBeforeReservation.isBefore(reservationInterval.getStartDate())) {
+                Log.i("Free startTime:", dateBeforeReservation.toString());
+                DateTime endAvailableDate = generateDateInRange(dateBeforeReservation, preferredDurationHours);
+                Log.i("Free endTime:", dateBeforeReservation.toString());
+                notReservedList.add(new ReservationInterval(dateBeforeReservation, endAvailableDate));
+                dateBeforeReservation = endAvailableDate;
+            }
+        }
+        return notReservedList;
+    }
+
+    public DateTime getFirstDateOfToday(final DateTime todaySomeDate) {
+        DateTime date = new DateTime(todaySomeDate.toString());
+        date.withTimeAtStartOfDay();
+        return date;
+    }
+
+    public DateTime generateDateInRange(final DateTime date, int preferredDurationHours) {
+        long timestampForNextDate = date.getMillis() + preferredDurationHours * 3600 * 1000;
+        return new DateTime(convertFromTimestampToDate(String.valueOf(timestampForNextDate)).toString());
+    }
+
+    private DateTime convertFromTimestampToDate(final String timestampToConvert) {
+        Timestamp timestamp = new Timestamp(Long.parseLong(timestampToConvert) * 1000L);
+        return new DateTime(timestamp.getTime());
+    }
+
+    private List<ReservationInterval> getAllDayAvailability(int preferredDurationHours) {
+        List<ReservationInterval> restOfTheDayAvailability = new ArrayList<>();
+        //Timestamp stamp = new Timestamp(System.currentTimeMillis());
+        Timestamp timestamp = new Timestamp(1564635600000L); //today 8:00 morning 1 August 2019
+        DateTime date = new DateTime(timestamp.getTime());
+        DateTime todayStartAvailability = new DateTime(date.toString());
+        DateTime todayEndAvailability = todayStartAvailability.plusHours(12);
+        DateTime startTimeInterval = new DateTime(todayStartAvailability);
+        DateTime endTimeInterval = new DateTime(todayStartAvailability.plusHours(preferredDurationHours));
+        while (startTimeInterval.isBefore(todayEndAvailability)) {
+            restOfTheDayAvailability.add(new ReservationInterval(startTimeInterval, endTimeInterval));
+            startTimeInterval = endTimeInterval;
+            endTimeInterval = startTimeInterval.plusHours(preferredDurationHours);
+        }
+        return restOfTheDayAvailability;
+    }
+
+    public String createJSONFromFreeTimeSlotsList(List<ReservationInterval> freeTimeSLots) throws JSONException {
+        final JSONArray freeTimesArray = new JSONArray();
+        for(ReservationInterval interval: freeTimeSLots) {
+            final JSONObject timeSLot = new JSONObject();
+            Timestamp startTimeStamp = new Timestamp(interval.getStartDate().getMillis());
+            timeSLot.put("start_time", startTimeStamp.getTime());
+            timeSLot.put("times_fit", startTimeStamp.getTime());
+            freeTimesArray.put(timeSLot);
+        }
+        return new JSONObject()
+                .put("free_times", freeTimesArray)
+                .toString();
     }
 
     private class GetListOfMembersTask extends AsyncTask<Void, Void, String> {
@@ -496,17 +563,6 @@ public class AddReservationEventActivity extends MenuActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-/*
-            HashMap<String, String> payload = new HashMap<>();
-            payload.put("title", eventTitle);
-            payload.put("start_time", mSelectedUnixTimeStamp.toString());
-            payload.put("duration", Integer.toString(durationTotalMinutes));
-            payload.put("location", eventLocation);
-            payload.put("details", eventDetails);
-            if (!memberEmailAddress.isEmpty()) {
-                payload.put("members", memberEmailAddress);
-            }
-*/
             Log.i("start_time: ", mSelectedUnixTimeStamp.toString());
             Log.i("duration: ", Integer.toString(durationTotalMinutes));
             final Reservation reservation = new Reservation();
@@ -520,7 +576,7 @@ public class AddReservationEventActivity extends MenuActivity {
                 User selectedUser = databaseHelper.findUserById(memberId);
                 reservation.setUserEmail(selectedUser.getEmail());
             }
-            int equipmentId = (int) dropdownEquipment.getSelectedItemId() + 1;
+            int equipmentId = getSelectedEquipmentId();
             reservation.setEquipmentId(equipmentId);
             reservationSqlCommander.addReservation(reservation);
             Log.v(LOG_TAG, "CreateReservationEvent payload: " + reservation);
@@ -539,7 +595,7 @@ public class AddReservationEventActivity extends MenuActivity {
                             .show();
 
                     Intent intent = new Intent(AddReservationEventActivity.this,
-                            EventDetailsActivity.class);
+                            ReservationEventDetailsActivity.class);
                     intent.putExtra("event", event);
                     startActivity(intent);
 
@@ -566,5 +622,9 @@ public class AddReservationEventActivity extends MenuActivity {
         }
         return buffer.toString();
 
+    }
+
+    private int getSelectedEquipmentId() {
+        return (int) dropdownEquipment.getSelectedItemId() + 1;
     }
 }

@@ -86,7 +86,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="com.androidtutorialshub.loginregister.activities.demo.ListReservationEventsFragment"
+            android:name="com.androidtutorialshub.loginregister.activities.ListReservationEventsActivity"
             android:id="@+id/events_fragment"/>
 
     </LinearLayout>

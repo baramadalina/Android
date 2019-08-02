@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.HashMap;
 
 /**
- * Created by pc on 8/21/2015.
+ * Created by Madalina Bara on 7/21/2019.
  */
 public class Event implements Parcelable {
     public static final String API_ID = "id";
@@ -109,7 +109,7 @@ public class Event implements Parcelable {
     }
 
     public String getDateString() {
-        return mDateManager.getReadableDateString();
+        return mDateManager.getReadableDateString(start_timestamp);
     }
 
     public String getTimeString() {

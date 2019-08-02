@@ -78,7 +78,7 @@ public class Comment {
     }
 
     public String getDateString() {
-        return mDateManager.getReadableDateString();
+        return mDateManager.getReadableDateString(createdAtTimestamp);
     }
 
     public String getTimeString() {

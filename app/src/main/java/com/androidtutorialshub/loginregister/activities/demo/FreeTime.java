@@ -1,7 +1,7 @@
 package com.androidtutorialshub.loginregister.activities.demo;
 
 /**
- * Created by amr on 9/18/15.
+ * Created by Bara Madalina on 6/18/2019.
  */
 public class FreeTime {
 

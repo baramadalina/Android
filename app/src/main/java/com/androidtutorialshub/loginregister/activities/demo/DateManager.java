@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Created by pc on 8/21/2015.
+ * Created by Madalina Bara on 6/21/2019.
  */
 public class DateManager {
     private GregorianCalendar mCalendar;
@@ -37,9 +37,9 @@ public class DateManager {
         mCalendar.setTimeInMillis(mTimeStamp);
     }
 
-    public String getReadableDateString() {
+    public String getReadableDateString(long timeStampToDisplay) {
         DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
-        return dateFormat.format(this.mCalendar.getTimeInMillis());
+        return dateFormat.format(timeStampToDisplay);
     }
 
     public void setDate(int year, int month, int day) {
@@ -75,5 +75,10 @@ public class DateManager {
     public String getReadableDayDateTimeString() {
         DateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, hh:mm a");
         return dateFormat.format(this.mCalendar.getTimeInMillis());
+    }
+
+    public String getReadableDayDateTimeString(long mTimeStampToDisplay) {
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, hh:mm a");
+        return dateFormat.format(mTimeStampToDisplay);
     }
 }
