@@ -76,7 +76,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d("Create database: {}", DATABASE_NAME);
         //Keep this below line here to drop database when it's necessary
-        context.deleteDatabase(DATABASE_NAME);
+        //context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
