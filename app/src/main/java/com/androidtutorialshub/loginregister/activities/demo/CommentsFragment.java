@@ -18,6 +18,13 @@ import android.widget.Toast;
 
 import com.androidtutorialshub.loginregister.R;
 import com.androidtutorialshub.loginregister.activities.InventoryCommentsActivity;
+import com.androidtutorialshub.loginregister.model.Comment;
+import com.androidtutorialshub.loginregister.sql.CommentSqlCommander;
+import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,11 +41,13 @@ public class CommentsFragment extends Fragment implements TaskProvider {
     private Button btnCommentSend;
     private EditText etCommentbody;
     private InventoryCommentsActivity mActivity;
+    private DatabaseHelper databaseHelper;
+    private CommentSqlCommander commentSqlCommander;
 
     private List<Comment> commentsList;
     private List<Comment> oldCommentsList = new ArrayList<>();
 
-    private PeriodicAsyncTask<GetCommentsTask> periodicCommentsRefresh;
+    private PeriodicAsyncTask<GetEquipmentCommentsTask> periodicCommentsRefresh;
 
     public CommentsFragment() {
         // Required empty public constructor
@@ -49,6 +58,8 @@ public class CommentsFragment extends Fragment implements TaskProvider {
         super.onCreate(savedInstanceState);
 
         mActivity = (InventoryCommentsActivity) getActivity();
+        databaseHelper = new DatabaseHelper(getContext());
+        commentSqlCommander = new CommentSqlCommander(databaseHelper);
     }
 
     @Override
@@ -75,7 +86,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
 
     @Override
     public AsyncTask<Void, ?, ?> getTask(int num) {
-        return new GetCommentsTask();
+        return new GetEquipmentCommentsTask();
     }
 
     @Override
@@ -95,8 +106,8 @@ public class CommentsFragment extends Fragment implements TaskProvider {
                             .show();
                     return;
                 }
-                AddCommentTask addCommentTask = new AddCommentTask();
-                addCommentTask.execute(commentBody);
+                AddCommentForEquipmentTask addCommentForEquipmentTask = new AddCommentForEquipmentTask();
+                addCommentForEquipmentTask.execute(commentBody);
             }
         });
         etCommentbody = (EditText) rootView.findViewById(R.id.etCommentBody);
@@ -161,42 +172,54 @@ public class CommentsFragment extends Fragment implements TaskProvider {
         listView.requestLayout();
     }
 
+    public String createJSONFromCommentsList(List<Comment> commentsList) throws JSONException {
+        final JSONArray comments = new JSONArray();
+        for (Comment comment : commentsList) {
+            final JSONObject c = new JSONObject();
+            c.put("id", comment.getId());
+            c.put("equipment_id", comment.getEquipmentID());
+            c.put("author_id", comment.getAuthorID());
+            c.put("content", comment.getContent());
+            c.put("author_name", comment.getAuthorName());
+            c.put("created_at", comment.getCreatedAtTimestamp());
+            comments.put(c);
+        }
+        return new JSONObject()
+                .put("comments", comments)
+                .toString();
+    }
 
-    private class GetCommentsTask extends AsyncTask<Void, Void, String> {
-        private final String QUERY_EVENT_ID = "event_id";
+    public String createJSONFromComment(Comment comment) throws JSONException {
+        final JSONObject c = new JSONObject();
+        c.put("id", comment.getId());
+        c.put("equipment_id", comment.getEquipmentID());
+        c.put("author_id", comment.getAuthorID());
+        c.put("content", comment.getContent());
+        c.put("author_name", comment.getAuthorName());
+        c.put("created_at", comment.getCreatedAtTimestamp());
+        JSONObject mainObj = new JSONObject();
+        mainObj.put("comment", c);
+        return mainObj.toString();
+    }
 
-        private final String LOG_TAG = GetCommentsTask.class.getSimpleName();
-        private final String ROUTE = "comments";
+
+    private class GetEquipmentCommentsTask extends AsyncTask<Void, Void, String> {
+
+        private final String LOG_TAG = GetEquipmentCommentsTask.class.getSimpleName();
 
         // constructor to solve instantiation problem in PeriodicAsyncTask
-        public GetCommentsTask() {
-        }
+        public GetEquipmentCommentsTask() {}
 
         @Override
         protected String doInBackground(Void... params) {
-            //HTTPManager httpManager = new HTTPManager();
-            HashMap<String, String> header = new HashMap<>();
-            header.put("Authorization",
-                    new PreferencesManager(getActivity(), null)
-                            .getApiKey());
-
-            HashMap<String, String> queryParamsMap = new HashMap<>();
-            String eventIdStr = Integer.toString(mActivity.getSelectedEquipmentId());
-            queryParamsMap.put(QUERY_EVENT_ID, eventIdStr);
-
-            //String jsonResponse = httpManager.get(ROUTE, header, queryParamsMap);
-            String jsonResponse = "{\n" +
-                    "\t\"error\": false,\n" +
-                    "\t\"comments\": [{\n" +
-                    "\t\t\"id\": 3,\n" +
-                    "\t\t\"event_id\": 6,\n" +
-                    "\t\t\"author_id\": 2,\n" +
-                    "\t\t\"content\": \"a detailed message for the even goes here....\",\n" +
-                    "\t\t\"author_name\": \"somebody\",\n" +
-                    "\t\t\"created_at\": \"1272509157\"\n" +
-                    "\t}]\n" +
-                    "}";
-            Log.v(LOG_TAG, "GetCommentsTask jsonResponse: " + jsonResponse);
+            List<Comment> commentListFromDb = commentSqlCommander.getCommentsForEquipmentId(mActivity.getSelectedEquipmentId());
+            String jsonResponse = null;
+            try {
+                jsonResponse = createJSONFromCommentsList(commentListFromDb);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.v(LOG_TAG, "GetCommentsForEquipments jsonResponse: " + jsonResponse);
             return jsonResponse;
         }
 
@@ -218,44 +241,29 @@ public class CommentsFragment extends Fragment implements TaskProvider {
         }
     }
 
-    private class AddCommentTask extends AsyncTask<String, Void, String> {
-        private final String PAYLOAD_EVENT_ID = "event_id";
-        private final String PAYLOAD_CONTENT = "content";
-        private final String LOG_TAG = AddCommentTask.class.getSimpleName();
-        private final String ROUTE = "comments";
+    private class AddCommentForEquipmentTask extends AsyncTask<String, Void, String> {
+        private final String LOG_TAG = AddCommentForEquipmentTask.class.getSimpleName();
 
         @Override
         protected String doInBackground(String... params) {
             String content = params[0];
-
-            //HTTPManager httpManager = new HTTPManager();
-            HashMap<String, String> header = new HashMap<>();
-            header.put("Authorization",
-                    new PreferencesManager(getActivity(), null)
-                            .getApiKey());
-
-            HashMap<String, String> payload = new HashMap<>();
-            String eventIdStr = Integer.toString(mActivity.getSelectedEquipmentId());
-
-            payload.put(PAYLOAD_EVENT_ID, eventIdStr);
-            payload.put(PAYLOAD_CONTENT, content);
-
-            //String jsonResponse = httpManager.post(ROUTE, header, payload);
-            String jsonResponse = "{\n" +
-                    "\t\"error\": false,\n" +
-                    "\t\"comments\": {\n" +
-                    "\t\t\"id\": 3,\n" +
-                    "\t\t\"event_id\": 6,\n" +
-                    "\t\t\"author_id\": 2,\n" +
-                    "\t\t\"content\": \"added comment\",\n" +
-                    "\t\t\"author_name\": \"somebody\",\n" +
-                    "\t\t\"created_at\": \"1272509157\"\n" +
-                    "\t}\n" +
-                    "}";
-            Log.v(LOG_TAG, "AddComment jsonResponse: " + jsonResponse);
-
+            int equipmentId = mActivity.getSelectedEquipmentId();
+            Comment newComment = new Comment();
+            newComment.setAuthorID(1);
+            newComment.setAuthorName("test");
+            newComment.setContent(content);
+            newComment.setCreatedAtTimestamp(System.currentTimeMillis());
+            newComment.setEquipmentID(equipmentId);
+            commentSqlCommander.addComment(newComment);
+            //final Comment addedComment = commentSqlCommander.getLastAddedComment(equipmentId);
+            String jsonResponse = null;
+            try {
+                jsonResponse = createJSONFromComment(newComment);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.v(LOG_TAG, "AddedComment jsonResponse: " + jsonResponse);
             return jsonResponse;
-
         }
 
         @Override

@@ -57,6 +57,16 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     static final String RESERVATION_EQUIPMENT_ID = "equipment_id";
     static final String RESERVATION_USER_EMAIL = "user_email";
 
+    // Comment table name
+    static final String TABLE_COMMENT = "comment";
+    // Comment table columns
+    static final String COMMENT_ID = "id";
+    static final String COMMENT_AUTHOR_ID = "author_id";
+    static final String COMMENT_AUTHOR_NAME = "author_name";
+    static final String COMMENT_EQUIPMENT_ID = "equipment_id";
+    static final String COMMENT_CONTENT = "content";
+    static final String COMMENT_CREATED_AT = "created_at";
+
     /**
      * Constructor
      *
@@ -66,7 +76,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d("Create database: {}", DATABASE_NAME);
         //Keep this below line here to drop database when it's necessary
-        //context.deleteDatabase(DATABASE_NAME);
+        context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
@@ -92,6 +102,13 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 + RESERVATION_START_TIME + " TEXT," + RESERVATION_DURATION + " TEXT,"
                 + RESERVATION_EQUIPMENT_ID + " INTEGER" + ")";
 
+        // create table reservation
+        String CREATE_COMMENT_TABLE = "CREATE TABLE " + TABLE_COMMENT + "("
+                + COMMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COMMENT_AUTHOR_ID + " INTEGER," + COMMENT_AUTHOR_NAME + " TEXT,"
+                + COMMENT_EQUIPMENT_ID + " INTEGER," + COMMENT_CONTENT + " TEXT,"
+                + COMMENT_CREATED_AT + " TEXT" + ")";
+
 
         db.execSQL(CREATE_USER_TABLE);
         Log.d("Table : {} created.", TABLE_USER);
@@ -99,10 +116,13 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("Table : {} created.", TABLE_EQUIPMENT);
         db.execSQL(CREATE_RESERVATION_TABLE);
         Log.d("Table : {} created.", TABLE_RESERVATION);
+        db.execSQL(CREATE_COMMENT_TABLE);
+        Log.d("Table : {} created.", TABLE_COMMENT);
         //initialize database when the application start
         initializeDatabaseWithUsers(db);
         initializeDatabaseWithEquipments(db);
         initializeDatabaseWithReservations(db);
+        initializeDatabaseWithComments(db);
     }
 
     @Override
@@ -114,9 +134,12 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         final String DROP_EQUIPMENT_TABLE = "DROP TABLE IF EXISTS " + TABLE_EQUIPMENT;
         //Drop Equipment table if exist
         final String DROP_RESERVATION_TABLE = "DROP TABLE IF EXISTS " + TABLE_RESERVATION;
+        //Drop Equipment table if exist
+        final String DROP_COMMENT_TABLE = "DROP TABLE IF EXISTS " + TABLE_COMMENT;
         db.execSQL(DROP_USER_TABLE);
         db.execSQL(DROP_EQUIPMENT_TABLE);
         db.execSQL(DROP_RESERVATION_TABLE);
+        db.execSQL(DROP_COMMENT_TABLE);
         // Create tables again
         onCreate(db);
     }
@@ -147,6 +170,17 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 "VALUES ('Reservation Title2', 'Laboratory 32', 'consultations', '1564650000', '180', '1', 'test@gmail.com')");
         sqLiteDatabase.execSQL("INSERT INTO reservation (title, location, details, start_time, duration, equipment_id, user_email) " +
                 "VALUES ('Reservation Title3', 'Chemical Laboratory', 'details later', '1272509157', '2', '6', 'mbara@yahoo.com')");
+    }
+
+    private void initializeDatabaseWithComments(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("INSERT INTO comment (author_id, author_name, equipment_id, content, created_at) " +
+                "VALUES ('1', 'test', '1', 'This equipment is restarting very hard sometimes', '1564843513000')");
+        sqLiteDatabase.execSQL("INSERT INTO comment (author_id, author_name, equipment_id, content, created_at) " +
+                "VALUES ('1', 'test', '2', 'It is working perfectly', '1564639200')");
+        sqLiteDatabase.execSQL("INSERT INTO comment (author_id, author_name, equipment_id, content, created_at) " +
+                "VALUES ('2', 'test1', '1', 'very good acquisition', '1564843679000')");
+        sqLiteDatabase.execSQL("INSERT INTO comment (author_id, author_name, equipment_id, content, created_at) " +
+                "VALUES ('3', 'madalina', '5', 'everything fine', '1563170400')");
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.androidtutorialshub.loginregister.activities.demo;
 
+import com.androidtutorialshub.loginregister.model.Comment;
 import com.androidtutorialshub.loginregister.model.Reservation;
 import com.androidtutorialshub.loginregister.model.User;
 import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
@@ -169,8 +170,6 @@ public class JsonParser {
     public static List<Comment> parseComments(String jsonStr) throws JsonParserException {
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
-            checkError(jsonObject);
-
             JSONArray commentsJsonArray = jsonObject.getJSONArray(API_COMMENTS_ARRAY);
 
             List<Comment> commentsList = new ArrayList<>();
@@ -191,7 +190,6 @@ public class JsonParser {
     public static Comment parseAddComment(String jsonStr) throws JsonParserException {
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
-            checkError(jsonObject);
 
             JSONObject commentJson = jsonObject.getJSONObject(API_COMMENT);
             return helperParseComment(commentJson);
@@ -226,13 +224,13 @@ public class JsonParser {
 
     private static Comment helperParseComment(JSONObject commentJson) throws JSONException {
         int id = commentJson.getInt(Comment.API_ID);
-        int eventId = commentJson.getInt(Comment.API_EVENT_ID);
+        int equipmentId = commentJson.getInt(Comment.API_EQUIPMENT_ID);
         int authorId = commentJson.getInt(Comment.API_AUTHOR_ID);
         String content = commentJson.getString(Comment.API_CONTENT);
         String authorName = commentJson.getString(Comment.API_AUTHOR_NAME);
         Long createdAtTimestamp = commentJson.getLong(Comment.API_CREATED_AT);
 
-        return new Comment(id, authorId, eventId, content,
+        return new Comment(id, authorId, equipmentId, content,
                 authorName, createdAtTimestamp);
     }
 

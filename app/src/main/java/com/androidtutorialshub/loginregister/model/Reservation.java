@@ -16,16 +16,6 @@ public class Reservation implements Parcelable {
 
     public Reservation() {}
 
-    public Reservation(String title, String location, String details, String duration, String startTime, String userEmail, int equipmentId) {
-        this.title = title;
-        this.location = location;
-        this.details = details;
-        this.duration = duration;
-        this.startTime = startTime;
-        this.userEmail = userEmail;
-        this.equipmentId = equipmentId;
-    }
-
     public Reservation(int id, String title, String location, String details, String duration, String startTime, String userEmail, int equipmentId) {
         this.id = id;
         this.title = title;
