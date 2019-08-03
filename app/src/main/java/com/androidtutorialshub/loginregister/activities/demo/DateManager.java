@@ -67,9 +67,9 @@ public class DateManager {
         return dateFormat.format(this.mCalendar.getTimeInMillis());
     }
 
-    public String getReadableDateTimeString() {
+    public String getReadableDateTimeString(long timeStampToDisplay) {
         DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm a");
-        return dateFormat.format(this.mCalendar.getTimeInMillis());
+        return dateFormat.format(timeStampToDisplay);
     }
 
     public String getReadableDayDateTimeString() {

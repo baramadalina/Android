@@ -1,9 +1,12 @@
 package com.androidtutorialshub.loginregister.activities.demo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
- * Created by pc on 8/24/2015.
+ * Created by Madalina Bara on 8/04/2019.
  */
-public class Comment {
+public class Comment implements Parcelable {
     public static final String API_ID = "id";
     public static final String API_AUTHOR_ID = "author_id";
     public static final String API_EVENT_ID = "event_id";
@@ -28,6 +31,31 @@ public class Comment {
         this.createdAtTimestamp = createdAtTimestamp;
         mDateManager = new DateManager(this.createdAtTimestamp);
     }
+
+    protected Comment(Parcel in) {
+        id = in.readInt();
+        authorID = in.readInt();
+        eventID = in.readInt();
+        content = in.readString();
+        authorName = in.readString();
+        if (in.readByte() == 0) {
+            createdAtTimestamp = null;
+        } else {
+            createdAtTimestamp = in.readLong();
+        }
+    }
+
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+        @Override
+        public Comment createFromParcel(Parcel in) {
+            return new Comment(in);
+        }
+
+        @Override
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -86,6 +114,39 @@ public class Comment {
     }
 
     public String getDateTimeString() {
-        return mDateManager.getReadableDateTimeString();
+        return mDateManager.getReadableDateTimeString(createdAtTimestamp);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(authorID);
+        dest.writeInt(eventID);
+        dest.writeString(content);
+        dest.writeString(authorName);
+        if (createdAtTimestamp == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(createdAtTimestamp);
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Comment{");
+        sb.append("id=").append(id);
+        sb.append(", authorID=").append(authorID);
+        sb.append(", eventID=").append(eventID);
+        sb.append(", content='").append(content).append('\'');
+        sb.append(", authorName='").append(authorName).append('\'');
+        sb.append(", createdAtTimestamp=").append(createdAtTimestamp);
+        sb.append('}');
+        return sb.toString();
     }
 }

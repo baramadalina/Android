@@ -13,6 +13,7 @@ public class SecondActivity extends AppCompatActivity {
 
     private Button btn_inventory;
     private Button btn_calendar;
+    private Button btn_comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class SecondActivity extends AppCompatActivity {
 
         btn_inventory = (Button) findViewById(R.id.ButtonInventory);
         btn_calendar = (Button) findViewById(R.id.ButtonCalendar);
+        btn_comments = findViewById(R.id.ButtonComments);
 
         btn_inventory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +40,17 @@ public class SecondActivity extends AppCompatActivity {
                 Intent intent = new Intent(SecondActivity.this, HomeActivity.class);
                 intent.putExtra("EMAIL", authenticatedEmail);
                 //Intent intent = new Intent(SecondActivity.this, CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent currentIntent = getIntent();
+                String authenticatedEmail = currentIntent.getStringExtra("EMAIL");
+                Intent intent = new Intent(SecondActivity.this, InventoryCommentsActivity.class);
+                intent.putExtra("EMAIL", authenticatedEmail);
                 startActivity(intent);
             }
         });

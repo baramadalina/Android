@@ -89,7 +89,8 @@ public class AddReservationEventActivity extends MenuActivity {
         reservationSqlCommander = new ReservationSqlCommander(databaseHelper);
         final List<Equipment> inventoryList = equipmentSqlCommander.getAllEquipments();
         List<String> equipmentNamesList = getAllEquipmentsDetails(inventoryList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, equipmentNamesList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_equipment_dropdown_all_items, equipmentNamesList);
+        adapter.setDropDownViewResource(R.layout.spinner_equipment_dropdown_selected_item);
         dropdownEquipment.setAdapter(adapter);
 
         btnFilterOptions.setOnClickListener(new View.OnClickListener() {

@@ -117,7 +117,7 @@ public class Event implements Parcelable {
     }
 
     public String getDateTimeString() {
-        return mDateManager.getReadableDateTimeString();
+        return mDateManager.getReadableDateTimeString(start_timestamp);
     }
 
 

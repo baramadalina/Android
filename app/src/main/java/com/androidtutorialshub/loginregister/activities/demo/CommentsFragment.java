@@ -17,7 +17,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.activities.ReservationEventDetailsActivity;
+import com.androidtutorialshub.loginregister.activities.InventoryCommentsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
     private SimpleAdapter adapter;
     private Button btnCommentSend;
     private EditText etCommentbody;
-    private ReservationEventDetailsActivity mActivity;
+    private InventoryCommentsActivity mActivity;
 
     private List<Comment> commentsList;
     private List<Comment> oldCommentsList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mActivity = (ReservationEventDetailsActivity) getActivity();
+        mActivity = (InventoryCommentsActivity) getActivity();
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1_comments, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_equipment_comments, container, false);
         commentsListView = (ListView) rootView.findViewById(R.id.listview_comments);
 
 
@@ -181,7 +181,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
                             .getApiKey());
 
             HashMap<String, String> queryParamsMap = new HashMap<>();
-            String eventIdStr = Integer.toString(mActivity.getEvent().getId());
+            String eventIdStr = Integer.toString(mActivity.getSelectedEquipmentId());
             queryParamsMap.put(QUERY_EVENT_ID, eventIdStr);
 
             //String jsonResponse = httpManager.get(ROUTE, header, queryParamsMap);
@@ -235,7 +235,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
                             .getApiKey());
 
             HashMap<String, String> payload = new HashMap<>();
-            String eventIdStr = Integer.toString(mActivity.getEvent().getId());
+            String eventIdStr = Integer.toString(mActivity.getSelectedEquipmentId());
 
             payload.put(PAYLOAD_EVENT_ID, eventIdStr);
             payload.put(PAYLOAD_CONTENT, content);

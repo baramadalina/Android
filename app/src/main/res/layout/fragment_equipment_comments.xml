@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="Send"
                 android:id="@+id/btnCommentSend"
-                android:background="@drawable/button_default_bg"
+                android:background="@color/colorTextHint"
                 android:layout_weight="30"
                 android:textSize="16sp"
                 style="@style/DefaultButtonText"

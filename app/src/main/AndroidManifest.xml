@@ -25,7 +25,7 @@
         <activity android:name=".activities.InventoryMainActivity" />
         <activity android:name=".activities.InventoryUpdateDeleteActivity" />
         <activity android:name=".activities.TasksActivity" />
-        <activity android:name=".activities.ReportsActivity" />
+        <activity android:name=".activities.InventoryCommentsActivity" />
 
         <activity
             android:name=".activities.InventoryListActivity"
