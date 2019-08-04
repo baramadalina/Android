@@ -1,6 +1,7 @@
 package com.androidtutorialshub.loginregister.activities.demo;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.androidtutorialshub.loginregister.R;
 import com.androidtutorialshub.loginregister.activities.InventoryCommentsActivity;
 import com.androidtutorialshub.loginregister.model.Comment;
+import com.androidtutorialshub.loginregister.model.User;
 import com.androidtutorialshub.loginregister.sql.CommentSqlCommander;
 import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
 
@@ -29,6 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -43,6 +46,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
     private InventoryCommentsActivity mActivity;
     private DatabaseHelper databaseHelper;
     private CommentSqlCommander commentSqlCommander;
+    private User authenticatedUser;
 
     private List<Comment> commentsList;
     private List<Comment> oldCommentsList = new ArrayList<>();
@@ -60,6 +64,9 @@ public class CommentsFragment extends Fragment implements TaskProvider {
         mActivity = (InventoryCommentsActivity) getActivity();
         databaseHelper = new DatabaseHelper(getContext());
         commentSqlCommander = new CommentSqlCommander(databaseHelper);
+        Intent currentIntent = Objects.requireNonNull(getActivity()).getIntent();
+        String authenticatedEmail = currentIntent.getStringExtra("EMAIL");
+        authenticatedUser = databaseHelper.findUserByEmail(authenticatedEmail);
     }
 
     @Override
@@ -249,8 +256,8 @@ public class CommentsFragment extends Fragment implements TaskProvider {
             String content = params[0];
             int equipmentId = mActivity.getSelectedEquipmentId();
             Comment newComment = new Comment();
-            newComment.setAuthorID(1);
-            newComment.setAuthorName("test");
+            newComment.setAuthorID(authenticatedUser.getId());
+            newComment.setAuthorName(authenticatedUser.getName());
             newComment.setContent(content);
             newComment.setCreatedAtTimestamp(System.currentTimeMillis());
             newComment.setEquipmentID(equipmentId);
