@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp" android:background="@color/colorTextHint"
+                android:background="@color/colorTextHint"
                 android:textStyle="normal|bold"
                 android:text="UPDATE EQUIPMENT" />
             <!--Button delete-->
@@ -205,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="80dp"
-                android:layout_marginStart="80dp" android:background="@color/colorTextHint"
+                android:background="@color/colorTextHint"
                 android:textStyle="normal|bold"
                 android:text="Delete equipment" />
         </LinearLayout>

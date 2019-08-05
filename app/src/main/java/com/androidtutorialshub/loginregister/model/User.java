@@ -1,7 +1,7 @@
 package com.androidtutorialshub.loginregister.model;
 
 /**
- * Created by lalit on 9/12/2016.
+ * Created by Madalina Bara on 9/04/2019.
  */
 public class User {
 
@@ -9,6 +9,14 @@ public class User {
     private String name;
     private String email;
     private String password;
+
+    public User(){}
+
+    public User(int id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 
     public int getId() {
         return id;

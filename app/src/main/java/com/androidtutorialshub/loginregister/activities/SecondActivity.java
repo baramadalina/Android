@@ -7,11 +7,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.activities.demo.HomeActivity;
 
 public class SecondActivity extends AppCompatActivity {
 
     private Button btn_inventory;
     private Button btn_calendar;
+    private Button btn_comments;
+    private Button btn_mail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,8 @@ public class SecondActivity extends AppCompatActivity {
 
         btn_inventory = (Button) findViewById(R.id.ButtonInventory);
         btn_calendar = (Button) findViewById(R.id.ButtonCalendar);
+        btn_comments = findViewById(R.id.ButtonComments);
+        btn_mail = findViewById(R.id.ButtonMail);
 
         btn_inventory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +37,30 @@ public class SecondActivity extends AppCompatActivity {
         btn_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecondActivity.this, CalendarActivity.class);
+                Intent currentIntent = getIntent();
+                String authenticatedEmail = currentIntent.getStringExtra("EMAIL");
+                Intent intent = new Intent(SecondActivity.this, HomeActivity.class);
+                intent.putExtra("EMAIL", authenticatedEmail);
+                //Intent intent = new Intent(SecondActivity.this, CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent currentIntent = getIntent();
+                String authenticatedEmail = currentIntent.getStringExtra("EMAIL");
+                Intent intent = new Intent(SecondActivity.this, InventoryCommentsActivity.class);
+                intent.putExtra("EMAIL", authenticatedEmail);
+                startActivity(intent);
+            }
+        });
+
+        btn_mail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SecondActivity.this, ActivitySendEmail.class);
                 startActivity(intent);
             }
         });

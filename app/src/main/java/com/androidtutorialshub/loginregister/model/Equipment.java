@@ -21,8 +21,7 @@ public class Equipment implements Parcelable {
     private String yearOfManufacture;
     private String quantityAvailable;
 
-    public Equipment() {
-    }
+    public Equipment() {}
 
     public Equipment(int id, String name, String room) {
         this.id = id;

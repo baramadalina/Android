@@ -3,21 +3,27 @@ package com.androidtutorialshub.loginregister.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class Reservation implements Parcelable {
 
     private int id;
-    private String interval;
+    private String title;
+    private String location;
+    private String details;
+    private String duration;
+    private String startTime;
+    private String userEmail;
     private int equipmentId;
 
-    public Reservation(String interval, int equipmentId) {
-        this.interval = interval;
-        this.equipmentId = equipmentId;
-    }
+    public Reservation() {}
 
-    public Reservation(int id, String interval, int equipmentId) {
+    public Reservation(int id, String title, String location, String details, String duration, String startTime, String userEmail, int equipmentId) {
         this.id = id;
-        this.interval = interval;
+        this.title = title;
+        this.location = location;
+        this.details = details;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.userEmail = userEmail;
         this.equipmentId = equipmentId;
     }
 
@@ -29,12 +35,20 @@ public class Reservation implements Parcelable {
         this.id = id;
     }
 
-    public String getInterval() {
-        return interval;
+    public String getDuration() {
+        return duration;
     }
 
-    public void setInterval(String interval) {
-        this.interval = interval;
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public int getEquipmentId() {
@@ -45,10 +59,62 @@ public class Reservation implements Parcelable {
         this.equipmentId = equipmentId;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
     protected Reservation(Parcel in) {
         id = in.readInt();
-        interval = in.readString();
+        title = in.readString();
+        location = in.readString();
+        details = in.readString();
+        duration = in.readString();
+        startTime = in.readString();
+        userEmail = in.readString();
         equipmentId = in.readInt();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Reservation{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", location='").append(location).append('\'');
+        sb.append(", details='").append(details).append('\'');
+        sb.append(", duration='").append(duration).append('\'');
+        sb.append(", startTime='").append(startTime).append('\'');
+        sb.append(", userEmail='").append(userEmail).append('\'');
+        sb.append(", equipmentId=").append(equipmentId);
+        sb.append('}');
+        return sb.toString();
     }
 
     public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
@@ -71,7 +137,12 @@ public class Reservation implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
-        parcel.writeString(interval);
+        parcel.writeString(title);
+        parcel.writeString(location);
+        parcel.writeString(details);
+        parcel.writeString(userEmail);
+        parcel.writeString(startTime);
+        parcel.writeString(duration);
         parcel.writeInt(equipmentId);
     }
 }

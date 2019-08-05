@@ -25,7 +25,7 @@
         <activity android:name=".activities.InventoryMainActivity" />
         <activity android:name=".activities.InventoryUpdateDeleteActivity" />
         <activity android:name=".activities.TasksActivity" />
-        <activity android:name=".activities.ReportsActivity" />
+        <activity android:name=".activities.InventoryCommentsActivity" />
 
         <activity
             android:name=".activities.InventoryListActivity"
@@ -38,9 +38,11 @@
                 android:resource="@menu/menu_search"></meta-data>
         </activity>
         <activity android:name=".activities.CalendarActivity" />
-        <activity android:name=".activities.OpenCalendarActivity" />
-        <activity android:name=".activities.ReservationActivity" />
-        <activity android:name=".activities.CheckinActivity" />
+        <activity android:name=".activities.AddReservationEventActivity" />
+        <activity android:name=".activities.demo.MenuActivity" />
+        <activity android:name=".activities.demo.HomeActivity" />
+        <activity android:name=".activities.ReservationEventDetailsActivity" />
+        <activity android:name=".activities.ActivitySendEmail" />
 
     </application>
 
