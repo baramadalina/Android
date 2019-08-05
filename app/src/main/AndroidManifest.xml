@@ -42,6 +42,7 @@
         <activity android:name=".activities.demo.MenuActivity" />
         <activity android:name=".activities.demo.HomeActivity" />
         <activity android:name=".activities.ReservationEventDetailsActivity" />
+        <activity android:name=".activities.ActivitySendEmail" />
 
     </application>
 
