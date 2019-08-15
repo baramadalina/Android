@@ -51,6 +51,63 @@
                     <RelativeLayout
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
+                        android:layout_marginBottom="15dp">
+
+                        <TextView
+                            android:id="@+id/textView39"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Equipment: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#333333"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvEventdetailsEquipmentName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toEndOf="@+id/textView39"
+                            android:layout_toRightOf="@+id/textView39"
+                            android:text="EKG equipment"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#333333"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="15dp">
+
+                        <TextView
+                            android:id="@+id/textView38"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Reserved by: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#333333"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvEventdetailsReservedBy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toEndOf="@+id/textView38"
+                            android:layout_toRightOf="@+id/textView38"
+                            android:text="example_email@yahoo.com"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#333333"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:layout_marginBottom="10dp">
 
                         <TextView
@@ -86,7 +143,7 @@
                             android:id="@+id/textView37"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Time: "
+                            android:text="Start time: "
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="#333333"
                             android:textSize="13sp"
@@ -161,16 +218,34 @@
                             android:textSize="13sp" />
                     </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tvEventdetailsBody"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:elegantTextHeight="false"
-                        android:lineSpacingMultiplier="1.2"
-                        android:text="Lorem ipsum dolor sit amet,  ullamco laboris nisi ut aliquip ex ea commodo consequat. s"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#333333"
-                        android:textSize="13sp" />
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginBottom="15dp">
+
+                        <TextView
+                            android:id="@+id/textView40"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Details: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#333333"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvEventdetailsBody"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="false"
+                            android:lineSpacingMultiplier="1.2"
+                            android:layout_toEndOf="@+id/textView40"
+                            android:layout_toRightOf="@+id/textView40"
+                            android:text="Lorem ipsum dolor sit amet,  ullamco laboris nisi ut aliquip ex ea commodo consequat. s"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#333333"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
 
                 </LinearLayout>
             </LinearLayout>

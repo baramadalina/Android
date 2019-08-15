@@ -144,7 +144,7 @@ public class CommentsFragment extends Fragment implements TaskProvider {
             };
 
             adapter = new SimpleAdapter(getActivity(), listValues,
-                    R.layout.list1_item_comment, from, to);
+                    R.layout.fragment_equipment_comments_list_items, from, to);
 
             commentsListView.setAdapter(adapter);
             setListViewHeightBasedOnChildren(commentsListView);
