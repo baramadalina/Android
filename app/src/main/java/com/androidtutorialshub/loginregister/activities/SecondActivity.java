@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.activities.demo.HomeActivity;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -39,7 +38,7 @@ public class SecondActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent currentIntent = getIntent();
                 String authenticatedEmail = currentIntent.getStringExtra("EMAIL");
-                Intent intent = new Intent(SecondActivity.this, HomeActivity.class);
+                Intent intent = new Intent(SecondActivity.this, HomeReservationActivity.class);
                 intent.putExtra("EMAIL", authenticatedEmail);
                 //Intent intent = new Intent(SecondActivity.this, CalendarActivity.class);
                 startActivity(intent);

@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities.util;
 
 
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities;
 
 
 import android.content.Intent;
@@ -7,10 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.activities.LoginActivity;
+import com.androidtutorialshub.loginregister.activities.util.PreferencesManager;
 
 /**
- * Created by pc on 8/27/2015.
+ * Created by Madalina Bara on 6/27/2019.
  */
 public class MenuActivity extends AppCompatActivity {
     @Override

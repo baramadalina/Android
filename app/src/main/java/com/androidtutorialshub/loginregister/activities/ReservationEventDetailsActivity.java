@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.activities.demo.Event;
-import com.androidtutorialshub.loginregister.activities.demo.MenuActivity;
+import com.androidtutorialshub.loginregister.activities.util.Event;
 import com.androidtutorialshub.loginregister.model.Equipment;
 import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
 import com.androidtutorialshub.loginregister.sql.EquipmentSqlCommander;

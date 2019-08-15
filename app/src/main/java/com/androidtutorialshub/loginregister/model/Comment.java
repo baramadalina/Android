@@ -3,7 +3,7 @@ package com.androidtutorialshub.loginregister.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.androidtutorialshub.loginregister.activities.demo.DateManager;
+import com.androidtutorialshub.loginregister.activities.util.DateManager;
 
 /**
  * Created by Madalina Bara on 8/04/2019.

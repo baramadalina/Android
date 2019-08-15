@@ -39,8 +39,8 @@
         </activity>
         <activity android:name=".activities.CalendarActivity" />
         <activity android:name=".activities.AddReservationEventActivity" />
-        <activity android:name=".activities.demo.MenuActivity" />
-        <activity android:name=".activities.demo.HomeActivity" />
+        <activity android:name=".activities.MenuActivity" />
+        <activity android:name=".activities.HomeReservationActivity" />
         <activity android:name=".activities.ReservationEventDetailsActivity" />
         <activity android:name=".activities.ActivitySendEmail" />
 

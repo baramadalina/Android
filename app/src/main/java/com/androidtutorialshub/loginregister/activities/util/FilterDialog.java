@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities.util;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Created by pc on 8/24/2015.
+ * Created by Madalina Bara on 8/14/2019.
  */
 public class FilterDialog extends Dialog
         implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
