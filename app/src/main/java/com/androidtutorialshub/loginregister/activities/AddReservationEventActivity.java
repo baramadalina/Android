@@ -78,7 +78,7 @@ public class AddReservationEventActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         Intent currentIntent = getIntent();
         authenticatedEmail = currentIntent.getStringExtra("EMAIL");
-        setContentView(R.layout.activity_add_reservation_event);
+        setContentView(R.layout.activity_reservation_add_new);
 
         btnFilterOptions = (Button) findViewById(R.id.btnFilterOptions);
 
@@ -89,8 +89,8 @@ public class AddReservationEventActivity extends MenuActivity {
         reservationSqlCommander = new ReservationSqlCommander(databaseHelper);
         final List<Equipment> inventoryList = equipmentSqlCommander.getAllEquipments();
         List<String> equipmentNamesList = getAllEquipmentsDetails(inventoryList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_equipment_dropdown_all_items, equipmentNamesList);
-        adapter.setDropDownViewResource(R.layout.spinner_equipment_dropdown_selected_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_all_items, equipmentNamesList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_selected_item);
         dropdownEquipment.setAdapter(adapter);
 
         btnFilterOptions.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +133,7 @@ public class AddReservationEventActivity extends MenuActivity {
         etEventLocation = (EditText) findViewById(R.id.etEventLocation);
         etEventDetails = (EditText) findViewById(R.id.etEventDetails);
         etDurationHours = (EditText) findViewById(R.id.etDurationHours);
-        etDurationMinutes = (EditText) findViewById(R.id.etDurationMinutes);
+        //etDurationMinutes = (EditText) findViewById(R.id.etDurationMinutes);
 
         spinTime = (Spinner) findViewById(R.id.spinTime);
 
@@ -240,7 +240,7 @@ public class AddReservationEventActivity extends MenuActivity {
         String durationHoursStr = etDurationHours.getText().toString();
         durationHours = durationHoursStr.isEmpty() ? 0 : Integer.parseInt(durationHoursStr);
 
-        String durationMinutesStr = etDurationMinutes.getText().toString();
+        String durationMinutesStr = "0"; //etDurationMinutes.getText().toString();
         durationMinutes = durationMinutesStr.isEmpty() ? 0 : Integer.parseInt(durationMinutesStr);
 
         durationTotalMinutes = durationMinutes + durationHours * 60;
@@ -257,8 +257,8 @@ public class AddReservationEventActivity extends MenuActivity {
             arraySpinner.add(dateManager.getReadableDayDateTimeString(timeStamp));
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item, arraySpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_all_items, arraySpinner);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_selected_item);
         spinTime.setAdapter(adapter);
         spinTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
