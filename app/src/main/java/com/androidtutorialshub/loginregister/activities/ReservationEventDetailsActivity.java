@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.activities.demo.Event;
-import com.androidtutorialshub.loginregister.activities.demo.MenuActivity;
+import com.androidtutorialshub.loginregister.activities.util.Event;
+import com.androidtutorialshub.loginregister.model.Equipment;
+import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
+import com.androidtutorialshub.loginregister.sql.EquipmentSqlCommander;
 
 
 public class ReservationEventDetailsActivity extends MenuActivity {
 
     private Event mEvent;
     private TextView tvTitle, tvDate, tvTime,
-            tvDuration, tvLocation, tvBody;
+            tvDuration, tvLocation, tvBody,
+            tvReservedByUser, tvReservedEquipment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,8 @@ public class ReservationEventDetailsActivity extends MenuActivity {
         tvDuration = (TextView) findViewById(R.id.tvEventdetailsDuration);
         tvLocation = (TextView) findViewById(R.id.tvEventdetailsLocation);
         tvBody = (TextView) findViewById(R.id.tvEventdetailsBody);
+        tvReservedByUser = (TextView) findViewById(R.id.tvEventdetailsReservedBy);
+        tvReservedEquipment = (TextView) findViewById(R.id.tvEventdetailsEquipmentName);
 
         Intent intent = getIntent();
         mEvent = intent.getParcelableExtra("event");
@@ -39,6 +44,14 @@ public class ReservationEventDetailsActivity extends MenuActivity {
         tvDuration.setText(this.mEvent.getDuration() + " Minutes");
         tvLocation.setText(this.mEvent.getLocation());
         tvBody.setText(this.mEvent.getDetails());
+        tvReservedByUser.setText(this.mEvent.getUserEmail());
+        int equipmentId = this.mEvent.getEquipmentId();
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        EquipmentSqlCommander sqlCommander = new EquipmentSqlCommander(databaseHelper);
+        Equipment equipment = sqlCommander.getInventory(equipmentId);
+        if (equipment != null) {
+            tvReservedEquipment.setText(equipment.getName());
+        }
     }
 
 //    @Override

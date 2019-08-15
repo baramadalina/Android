@@ -29,8 +29,8 @@ public class InventoryCommentsActivity extends AppCompatActivity {
         equipmentSqlCommander = new EquipmentSqlCommander(databaseHelper);
         final List<Equipment> inventoryList = equipmentSqlCommander.getAllEquipments();
         List<String> equipmentNamesList = getAllEquipmentsDetails(inventoryList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_equipment_dropdown_all_items, equipmentNamesList);
-        adapter.setDropDownViewResource(R.layout.spinner_equipment_dropdown_selected_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_all_items, equipmentNamesList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_selected_item);
         spinnerEquipmentsList.setAdapter(adapter);
     }
 

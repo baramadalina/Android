@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities.util;
 
 import com.androidtutorialshub.loginregister.model.Comment;
 import com.androidtutorialshub.loginregister.model.Reservation;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pc on 8/17/2015.
+ * Created by Madalina Bara on 7/17/2019.
  */
 public class JsonParser {
 
@@ -35,54 +35,7 @@ public class JsonParser {
         }
     }
 
-
     /**
-     * parses response from /eventsched/v1/login
-     * response example:
-     * {
-     *  error: false
-     *  id: 4
-     *  name: "someone"
-     *  email: "someone@gmail.com"
-     *  gender: "M"
-     *  key: "31b6e148cc7f2e7af07acdf0c12f83f7"
-     * }
-     * @param jsonStr response JSON string
-     * @return User contains data about the user who logged in
-     */
-/*    public static User parseLogin(String jsonStr) throws JsonParserException {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonStr);
-            // if response has an error message, throw JsonParserException with that message
-            checkError(jsonObject);
-            int id = jsonObject.getInt(User.API_ID);
-            String name = jsonObject.getString(User.API_NAME);
-            String email = jsonObject.getString(User.API_EMAIL);
-            String gender = jsonObject.getString(User.API_GENDER);
-            String key = jsonObject.getString(User.API_KEY);
-
-            return new User(id, name, email, gender, key);
-
-        } catch (JSONException e) {
-            // failed to parse json string
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
-    /**
-     * parses response from /eventsched/v1/events
-     * response example:
-     * {
-     * "error":false,
-     * "events":[
-     * {"id":"3","owner_id":"6","event":"meeting with supervisor",
-     * "details":"a detailed message for the even goes here....",
-     * "location":"somewhere","start_time":"1272509157","duration":"60",
-     * "last_update_time":null},
-     * {"id":"4","owner_id":"6",...}
-     * ]
-     * }
      *
      * @param jsonStr response JSON string
      * @return Event List contains data about the events
@@ -252,9 +205,11 @@ public class JsonParser {
         String details = eventJson.getString(Event.API_DETAILS);
         String location = eventJson.getString(Event.API_LOCATION);
         long start_time = eventJson.getLong(Event.API_START_TIMESTAMP);
+        String reservedByUser = eventJson.getString(Event.API_RESERVED_BY_USER);
+        int equipmentId = eventJson.getInt(Event.API_RESERVED_EQUIPMENT_ID);
 
         return new Event(id, owner_id, title, details,
-                location, start_time, duration);
+                location, start_time, duration, reservedByUser, equipmentId);
     }
 
     private static Event helperParseEvent(String reservationEventTitle, DatabaseHelper databaseHelper) {
@@ -266,7 +221,8 @@ public class JsonParser {
         User userOwner = databaseHelper.findUserByEmail(createdReservation.getUserEmail());
         // int id, int owner_id, String title, String details, String location, long start_timestamp, int duration
         return new Event(createdReservation.getId(), userOwner.getId(), createdReservation.getTitle(), createdReservation.getDetails(),
-                createdReservation.getLocation(), Long.parseLong(createdReservation.getStartTime()), Integer.parseInt(createdReservation.getDuration()));
+                createdReservation.getLocation(), Long.parseLong(createdReservation.getStartTime()), Integer.parseInt(createdReservation.getDuration()),
+                createdReservation.getUserEmail(), createdReservation.getEquipmentId());
     }
 
     private static void checkError(JSONObject jsonObject) throws JSONException, JsonParserException {

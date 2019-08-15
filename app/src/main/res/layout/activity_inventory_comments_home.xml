@@ -59,7 +59,7 @@
                 <!-- Comments Fragment-->
                 <fragment
                     android:id="@+id/comments_fragment"
-                    android:name="com.androidtutorialshub.loginregister.activities.demo.CommentsFragment"
+                    android:name="com.androidtutorialshub.loginregister.activities.util.CommentsFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

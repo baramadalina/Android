@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities.util;
 
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by amr on 9/14/15.
+ * Created by Madalina Bara on 2/14/2019.
  */
 public class PeriodicAsyncTask<T extends AsyncTask<Void,?,?>> {
     private Timer timer;

@@ -1,7 +1,7 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities.util;
 
 /**
- * Created by pc on 8/24/2015.
+ * Created by Madalina Bara on 6/24/2019.
  */
 public class Member {
     public static final String API_NAME = "name";

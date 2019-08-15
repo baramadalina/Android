@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.activities.AddReservationEventActivity;
+import com.androidtutorialshub.loginregister.activities.util.PreferencesManager;
+import com.androidtutorialshub.loginregister.activities.util.RetrieveNewEventsService;
 
 
-public class HomeActivity extends MenuActivity {
+public class HomeReservationActivity extends MenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class HomeActivity extends MenuActivity {
                 public void onClick(View v) {
                     Intent currentIntent = getIntent();
                     String authenticatedEmail = currentIntent.getStringExtra("EMAIL");
-                    Intent intent = new Intent(HomeActivity.this, AddReservationEventActivity.class);
+                    Intent intent = new Intent(HomeReservationActivity.this, AddReservationEventActivity.class);
                     intent.putExtra("EMAIL", authenticatedEmail);
                     startActivity(intent);
                 }

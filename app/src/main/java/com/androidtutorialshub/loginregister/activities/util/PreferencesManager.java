@@ -1,4 +1,4 @@
-package com.androidtutorialshub.loginregister.activities.demo;
+package com.androidtutorialshub.loginregister.activities.util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by pc on 8/18/2015.
+ * Created by Madalina Bara on 7/18/2019.
  */
 public class PreferencesManager {
     private Context mAppContext;

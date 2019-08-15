@@ -15,9 +15,9 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.activities.demo.Event;
-import com.androidtutorialshub.loginregister.activities.demo.Event.EventHash;
-import com.androidtutorialshub.loginregister.activities.demo.JsonParser;
+import com.androidtutorialshub.loginregister.activities.util.Event;
+import com.androidtutorialshub.loginregister.activities.util.Event.EventHash;
+import com.androidtutorialshub.loginregister.activities.util.JsonParser;
 import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
 
 import java.util.ArrayList;

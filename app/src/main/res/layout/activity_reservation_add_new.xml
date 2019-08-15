@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.androidtutorialshub.loginregister.activities.AddReservationEventActivity">
 
     <ScrollView
@@ -20,9 +20,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tvFillReservationDetails"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Fill Reservation event details" />
+                android:background="#ffe74c3c"
+                android:paddingStart="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:text="Fill Reservation event details"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ECF0F1"
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Duration"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,59 +79,60 @@
 
                     <EditText
                         android:id="@+id/etDurationHours"
-                        android:layout_width="125dp"
+                        android:layout_width="248dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Hours"
                         android:inputType="number" />
-
-                    <EditText
+<!--                <EditText
                         android:id="@+id/etDurationMinutes"
                         android:layout_width="125dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Minutes"
-                        android:inputType="number" />
-
+                        android:inputType="number" /> -->
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Choose equipment" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Choose medical equipment"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+
                 <Spinner
                     android:id="@+id/spinner_dropDown_equipments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"/>
+                    android:spinnerMode="dropdown" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/containerMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/containerMembers">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Member"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:text="Reserved by"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <ListView
                     android:id="@+id/listview_members"
                     android:layout_width="match_parent"
                     android:layout_height="30dp" />
 
-
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Start Time"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -140,18 +149,25 @@
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginRight="20dp"
+                        android:background="@color/colorTextHint"
+                        android:minHeight="30dp"
                         android:text="Filter Options" />
+
                     <Button
                         android:id="@+id/btnRefreshSuggestions"
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_below="@id/btnFilterOptions"
                         android:layout_alignLeft="@id/btnFilterOptions"
-                        android:text="Refresh"/>
+                        android:layout_marginLeft="-213dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/colorTextHint"
+                        android:minHeight="30dp"
+                        android:text="Check availability" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -159,10 +175,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 android:weightSum="100">
-
 
                 <FrameLayout
                     android:layout_width="0dp"
@@ -175,13 +190,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
                     android:layout_weight="30"
-                    android:text="Create" />
+                    android:background="@color/colorTextHint"
+                    android:minHeight="35dp"
+                    android:text="Reserve" />
 
                 <Button
                     android:id="@+id/btnEventCancel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"
+                    android:background="@color/colorTextHint"
+                    android:minHeight="35dp"
                     android:text="Cancel" />
 
 
