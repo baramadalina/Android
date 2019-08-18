@@ -101,10 +101,6 @@ public class Comment implements Parcelable {
         return mDateManager.getReadableDateString(createdAtTimestamp);
     }
 
-    public String getTimeString() {
-        return mDateManager.getReadableTimeString();
-    }
-
     public String getDateTimeString() {
         return mDateManager.getReadableDateTimeString(createdAtTimestamp);
     }

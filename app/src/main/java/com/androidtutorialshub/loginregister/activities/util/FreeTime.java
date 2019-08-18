@@ -20,8 +20,8 @@ public class FreeTime {
         dateManager = new DateManager(startTimeStamp);
     }
 
-    public String getTimeString() {
-        return dateManager.getReadableDayDateTimeString();
+    public String getTimeString(long startTimeStamp) {
+        return dateManager.getReadableDayDateTimeString(startTimeStamp);
     }
 
     public int getRepetitionsCount() {
