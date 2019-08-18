@@ -230,8 +230,12 @@ public class AddReservationEventActivity extends MenuActivity {
             return false;
         }
 
-        // TODO fix this after dynamic fill
-//        mSelectedUnixTimeStamp = mSelectedTimeStamp;
+        final String memberId = extractMemberId();
+        if (memberId.isEmpty()) {
+            Toast.makeText(this, "Please Select the reservation owner", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return true;
     }
 
@@ -250,7 +254,7 @@ public class AddReservationEventActivity extends MenuActivity {
         DateManager dateManager = new DateManager();
 
         ArrayList<String> arraySpinner = new ArrayList<>();
-        for(FreeTime freeTime: freeTimesList) {
+        for (FreeTime freeTime : freeTimesList) {
             long timeStamp = freeTime.getStartTimeStamp();
             this.freeTimes.add(timeStamp);
             arraySpinner.add(dateManager.getReadableDayDateTimeString(timeStamp));
@@ -435,7 +439,7 @@ public class AddReservationEventActivity extends MenuActivity {
             final DateTime endDate = convertFromTimestampToDate(String.valueOf(timestampEnd));
             //check if reservation is for today after allowed start hour and add it to list, otherwise skip it
             DateTime startDateTimeForReservation = getReservationIntervalStartTimeForToday();
-            if (startDate.isAfter(startDateTimeForReservation)) {
+            if (startDate.isAfter(startDateTimeForReservation) || startDate.isEqual(startDateTimeForReservation)) {
                 final ReservationInterval reservationInterval = new ReservationInterval(startDate, endDate);
                 reservationIntervalList.add(reservationInterval);
             }
