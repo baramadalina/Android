@@ -433,53 +433,78 @@ public class AddReservationEventActivity extends MenuActivity {
             int durationInMinutes = Integer.parseInt(busyTimeSlot.getDuration());
             long timestampEnd = Long.parseLong(busyTimeSlot.getStartTime()) + durationInMinutes * 60L;
             final DateTime endDate = convertFromTimestampToDate(String.valueOf(timestampEnd));
-            ReservationInterval reservationInterval = new ReservationInterval(startDate, endDate);
-            reservationIntervalList.add(reservationInterval);
-        }
-        Collections.sort(reservationIntervalList);
-        final List<ReservationInterval> notReservedList = new ArrayList<>();
-
-        if (reservationIntervalList.isEmpty()) {
-            return getAllDayAvailability(preferredDurationHours);
-        }
-        for (ReservationInterval reservationInterval : reservationIntervalList) {
-            Log.i("ReservationInterval:", reservationInterval.toString());
-            DateTime aux = new DateTime(reservationInterval.getStartDate().toString());
-            DateTime dateBeforeReservation = getFirstDateOfToday(aux);
-            while (dateBeforeReservation.isBefore(reservationInterval.getStartDate())) {
-                Log.i("Free startTime:", dateBeforeReservation.toString());
-                DateTime endAvailableDate = generateDateInRange(dateBeforeReservation, preferredDurationHours);
-                Log.i("Free endTime:", dateBeforeReservation.toString());
-                notReservedList.add(new ReservationInterval(dateBeforeReservation, endAvailableDate));
-                dateBeforeReservation = endAvailableDate;
+            //check if reservation is for today after allowed start hour and add it to list, otherwise skip it
+            DateTime startDateTimeForReservation = getReservationIntervalStartTimeForToday();
+            if (startDate.isAfter(startDateTimeForReservation)) {
+                final ReservationInterval reservationInterval = new ReservationInterval(startDate, endDate);
+                reservationIntervalList.add(reservationInterval);
             }
         }
-        return notReservedList;
+        Collections.sort(reservationIntervalList);
+
+        if (reservationIntervalList.isEmpty()) {
+            return showAllDayAvailabilityWhenNoReservationExistForEquipment(preferredDurationHours);
+        } else {
+            return showAvailableTimeSlotForEquipment(reservationIntervalList, preferredDurationHours);
+        }
     }
 
-    public DateTime getFirstDateOfToday(final DateTime todaySomeDate) {
-        DateTime date = new DateTime(todaySomeDate.toString());
-        date.withTimeAtStartOfDay();
-        return date;
+    public DateTime getReservationIntervalStartTimeForToday() {
+        final Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());//today currentTime
+        DateTime currentDateTime = new DateTime(currentTimestamp.getTime());
+        currentDateTime = getFullHour(currentDateTime);
+        final DateTime firstAllowedReservationStartHour = getFirstAllowedHourForReservation(currentDateTime);
+        if (currentDateTime.isBefore(firstAllowedReservationStartHour)) {
+            return firstAllowedReservationStartHour;
+        }
+        return currentDateTime;
     }
 
     public DateTime generateDateInRange(final DateTime date, int preferredDurationHours) {
-        long timestampForNextDate = date.getMillis() + preferredDurationHours * 3600 * 1000;
-        return new DateTime(convertFromTimestampToDate(String.valueOf(timestampForNextDate)).toString());
+        return new DateTime(date.plusHours(preferredDurationHours));
     }
 
     private DateTime convertFromTimestampToDate(final String timestampToConvert) {
-        Timestamp timestamp = new Timestamp(Long.parseLong(timestampToConvert) * 1000L);
+        Timestamp timestamp = new Timestamp(Long.parseLong(timestampToConvert));
         return new DateTime(timestamp.getTime());
     }
 
-    private List<ReservationInterval> getAllDayAvailability(int preferredDurationHours) {
+    private List<ReservationInterval> showAvailableTimeSlotForEquipment(List<ReservationInterval> reservationIntervalList, int preferredDurationHours) {
+        final List<ReservationInterval> freeReservationIntervalsList = new ArrayList<>();
+        DateTime todayStartTimeInterval = getReservationIntervalStartTimeForToday(); // 7:00 a.m today
+        for (ReservationInterval reservationInterval : reservationIntervalList) {
+            Log.i("ReservationInterval:", reservationInterval.toString());
+            while (todayStartTimeInterval.isBefore(reservationInterval.getStartDate())) {
+                Log.i("Free startTime:", todayStartTimeInterval.toString());
+                DateTime endAvailableDate = generateDateInRange(todayStartTimeInterval, preferredDurationHours);
+                Log.i("Free endTime:", endAvailableDate.toString());
+                if (endAvailableDate.isBefore(reservationInterval.getStartDate()) || endAvailableDate.isEqual(reservationInterval.getStartDate())) {
+                    freeReservationIntervalsList.add(new ReservationInterval(todayStartTimeInterval, endAvailableDate));
+                }
+                todayStartTimeInterval = new DateTime(endAvailableDate);
+            }
+            todayStartTimeInterval = new DateTime(reservationInterval.getEndDate());
+        }
+        DateTime todayLastIntervalAllowed = getLastAllowedHourForReservation(todayStartTimeInterval);
+        while (todayStartTimeInterval.isBefore(todayLastIntervalAllowed)) {
+            DateTime todayEndTime = generateDateInRange(todayStartTimeInterval, preferredDurationHours);
+            freeReservationIntervalsList.add(new ReservationInterval(todayStartTimeInterval, todayEndTime));
+            todayStartTimeInterval = new DateTime(todayEndTime);
+        }
+        return freeReservationIntervalsList;
+    }
+
+    private List<ReservationInterval> showAllDayAvailabilityWhenNoReservationExistForEquipment(int preferredDurationHours) {
         List<ReservationInterval> restOfTheDayAvailability = new ArrayList<>();
-        //Timestamp stamp = new Timestamp(System.currentTimeMillis());
-        Timestamp timestamp = new Timestamp(1564635600000L); //today 8:00 morning 1 August 2019
-        DateTime date = new DateTime(timestamp.getTime());
-        DateTime todayStartAvailability = new DateTime(date.toString());
-        DateTime todayEndAvailability = todayStartAvailability.plusHours(12);
+        final Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        DateTime currentDateTime = new DateTime(currentTimestamp.getTime());
+        currentDateTime = getFullHour(currentDateTime);
+        DateTime today8amDate = getFirstAllowedHourForReservation(currentDateTime);
+        DateTime todayStartAvailability = new DateTime(currentDateTime.toString());
+        if (currentDateTime.isBefore(today8amDate)) {
+            todayStartAvailability = new DateTime(today8amDate.toString());
+        }
+        DateTime todayEndAvailability = getLastAllowedHourForReservation(todayStartAvailability);
         DateTime startTimeInterval = new DateTime(todayStartAvailability);
         DateTime endTimeInterval = new DateTime(todayStartAvailability.plusHours(preferredDurationHours));
         while (startTimeInterval.isBefore(todayEndAvailability)) {
@@ -490,9 +515,44 @@ public class AddReservationEventActivity extends MenuActivity {
         return restOfTheDayAvailability;
     }
 
+    /**
+     * If time is now 13:13, get then full hour as available e.g: 13:00
+     *
+     * @param dateTime - an object of type {@code DateTime}
+     * @return dateTime - an object of type {@code DateTime}
+     */
+    private DateTime getFullHour(final DateTime dateTime) {
+        return new DateTime(dateTime.getYear(), dateTime.getMonthOfYear(),
+                dateTime.getDayOfMonth(), dateTime.getHourOfDay(), 0, 0);
+    }
+
+    /**
+     * Get from reservation DateTime
+     * the reservation allowed start DateTime. e.g: 07:00 a.m
+     *
+     * @param dateTime - an object of type {@code DateTime}
+     * @return dateTime - an object of type {@code DateTime}
+     */
+    private DateTime getFirstAllowedHourForReservation(final DateTime dateTime) {
+        return new DateTime(dateTime.getYear(), dateTime.getMonthOfYear(),
+                dateTime.getDayOfMonth(), 7, 0, 0); //today 07:00 a.m
+    }
+
+    /**
+     * Get from reservation DateTime
+     * the reservation last allowed start DateTime. e.g: 20:00 p.m
+     *
+     * @param dateTime - an object of type {@code DateTime}
+     * @return dateTime - an object of type {@code DateTime}
+     */
+    private DateTime getLastAllowedHourForReservation(final DateTime dateTime) {
+        return new DateTime(dateTime.getYear(), dateTime.getMonthOfYear(),
+                dateTime.getDayOfMonth(), 20, 0, 0); //today 20:00 p.m
+    }
+
     public String createJSONFromFreeTimeSlotsList(List<ReservationInterval> freeTimeSLots) throws JSONException {
         final JSONArray freeTimesArray = new JSONArray();
-        for(ReservationInterval interval: freeTimeSLots) {
+        for (ReservationInterval interval : freeTimeSLots) {
             final JSONObject timeSLot = new JSONObject();
             Timestamp startTimeStamp = new Timestamp(interval.getStartDate().getMillis());
             timeSLot.put("start_time", startTimeStamp.getTime());
