@@ -475,11 +475,16 @@ public class AddReservationEventActivity extends MenuActivity {
 
     private List<ReservationInterval> getAllDayAvailability(int preferredDurationHours) {
         List<ReservationInterval> restOfTheDayAvailability = new ArrayList<>();
-        //Timestamp stamp = new Timestamp(System.currentTimeMillis());
-        Timestamp timestamp = new Timestamp(1564635600000L); //today 8:00 morning 1 August 2019
-        DateTime date = new DateTime(timestamp.getTime());
-        DateTime todayStartAvailability = new DateTime(date.toString());
-        DateTime todayEndAvailability = todayStartAvailability.plusHours(12);
+        final Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis()); //today currentTime
+        DateTime currentDateTime = new DateTime(currentTimestamp.getTime());
+        DateTime today8amDate = new DateTime(currentDateTime.getYear(), currentDateTime.getMonthOfYear(),
+                currentDateTime.getDayOfMonth(), 8,0,0); //today 8.00 a.m
+        DateTime todayStartAvailability = new DateTime(currentDateTime.toString());
+        if(currentDateTime.isBefore(today8amDate)) {
+            todayStartAvailability = new DateTime(today8amDate.toString());
+        }
+        DateTime todayEndAvailability = new DateTime(todayStartAvailability.getYear(), todayStartAvailability.getMonthOfYear(),
+                todayStartAvailability.getDayOfMonth(), 20,0,0); //today 20:00 p.m
         DateTime startTimeInterval = new DateTime(todayStartAvailability);
         DateTime endTimeInterval = new DateTime(todayStartAvailability.plusHours(preferredDurationHours));
         while (startTimeInterval.isBefore(todayEndAvailability)) {
